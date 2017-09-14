@@ -1,2 +1,2 @@
-opensourcetest
+test-project-utf8
 ==============
