@@ -58,9 +58,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
+                    <source>1.6</source>
                     <encoding>UTF8</encoding>
-                    <target>1.7</target>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
 
