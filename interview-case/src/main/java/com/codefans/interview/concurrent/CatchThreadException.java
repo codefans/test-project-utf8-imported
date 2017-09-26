@@ -1,4 +1,4 @@
-package com.codefans.interviewcase.concurrent;
+package com.codefans.interview.concurrent;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
