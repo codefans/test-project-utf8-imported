@@ -1,5 +1,9 @@
-package com.codefans.reusablecode;
+package com.codefans.reusablecode.util;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -11,11 +15,25 @@ import java.security.MessageDigest;
  **/
 public class MD5Utils {
 
+    public static String getFileMD5Str(String filePath) {
+        try {
+            if(StringUtils.isEmpty(filePath)) {
+                throw new IllegalArgumentException("filePath can not be empty.");
+            }
+            InputStream is = new FileInputStream(new File(filePath));
+            return getMD5Str(is);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String getMD5Str(InputStream in) {
         try {
             byte[] strTemp = getBytes(in);
             return getMD5Str(strTemp);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -25,6 +43,7 @@ public class MD5Utils {
             byte[] strTemp = source.getBytes();
             return getMD5Str(strTemp);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -45,6 +64,7 @@ public class MD5Utils {
             return new String(str);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -65,7 +85,7 @@ public class MD5Utils {
                 totalBytes = totalBytes + read;
                 md5.update(bytes, 0, read);
             }
-            System.out.println("totalBytes:[" + totalBytes + "]");
+//            System.out.println("totalBytes:[" + totalBytes + "]");
             md5Bytes = md5.digest();
         } catch (IOException ioex) {
             ioex.printStackTrace();
