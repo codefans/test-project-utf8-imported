@@ -1,5 +1,6 @@
-package com.codefans.reusablecode;
+package com.codefans.reusablecode.util;
 
+import com.codefans.reusablecode.util.MD5Utils;
 import org.junit.Test;
 
 /**
