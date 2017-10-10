@@ -91,6 +91,33 @@ public class LinkIteratorTest {
         }
     }
 
+    /**
+     * 计算节点个数
+     */
+    @Test
+    public void nodeCountTest() {
 
+        int nodeCount = this.nodeCountByRecursion(binaryTreeNode);
+        System.out.println("节点总数为:" + nodeCount);
+
+        int leafCount = this.leafCountByRecursion(binaryTreeNode);
+        System.out.println("叶子节点个数为:" + leafCount);
+    }
+
+    //递归计算叶子节点个数
+    public int leafCountByRecursion(BinaryTreeNode binaryTreeNode) {
+       if(binaryTreeNode.getLeft() == null && binaryTreeNode.getRight() == null) {
+           return 1;
+       }
+       return leafCountByRecursion(binaryTreeNode.getLeft()) + leafCountByRecursion(binaryTreeNode.getRight());
+    }
+
+    //递归统计节点总数
+    public int nodeCountByRecursion(BinaryTreeNode binaryTreeNode) {
+        if(binaryTreeNode == null) {
+            return 0;
+        }
+        return 1 + nodeCountByRecursion(binaryTreeNode.getLeft()) + nodeCountByRecursion(binaryTreeNode.getRight());
+    }
 
 }
