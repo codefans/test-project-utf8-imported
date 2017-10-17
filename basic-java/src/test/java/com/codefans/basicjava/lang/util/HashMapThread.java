@@ -12,6 +12,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * jps
  * jstack pid
  *
+ * 参考资料：
+ * 图解集合 5 ：不正确地使用HashMap引发死循环及元素丢失
+ * http://www.importnew.com/25070.html
+ *
+ *
  **/
 public class HashMapThread extends Thread {
 
