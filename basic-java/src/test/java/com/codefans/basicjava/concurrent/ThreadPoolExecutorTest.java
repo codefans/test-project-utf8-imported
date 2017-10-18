@@ -78,8 +78,18 @@ public class ThreadPoolExecutorTest {
              * 但是只要 keepAliveTime 值非 0，allowCoreThreadTimeOut(boolean) 方法也可将此超时策略应用于核心线程。
              */
             long keepAliveTime = 100L;
+            /**
+             * keepAliveTime 参数的时间单位
+             */
             TimeUnit unit = TimeUnit.SECONDS;
-            BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>(3);
+            /**
+             * 用于保存任务的队列,当任务数大于corePoolSize时，任务会被放到队列中
+             */
+            BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<Runnable>(30);
+            /**
+             * 创建新线程
+             * 使用 ThreadFactory 创建新线程。通过提供不同的 ThreadFactory，可以改变线程的名称、线程组、优先级、守护进程状态，等等
+             */
             ThreadFactory threadFactory = new NamedThreadFactory("thread_pool_executor");
             /**
              * 当提交的任务数大于(最大线程数与阻塞队列的大小之和)时,才会丢弃任务。
@@ -101,8 +111,10 @@ public class ThreadPoolExecutorTest {
             for(int i = 0; i < taskNums; i ++) {
                 try {
                     result = new ResultDto();
-                    Future<ResultDto> future = poolExecutor.submit(new ParamRunnable(result), result);
-                    resList.add(future);
+//                    Future<ResultDto> future = poolExecutor.submit(new ParamRunnable(result), result);
+//                    resList.add(future);
+
+                    poolExecutor.execute(new ParamRunnable(result));
 
                     poolSize = poolExecutor.getPoolSize();
                     System.out.println("poolSize:" + poolSize);
