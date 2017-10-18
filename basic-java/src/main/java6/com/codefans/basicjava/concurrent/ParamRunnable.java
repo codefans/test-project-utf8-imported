@@ -27,8 +27,13 @@ public class ParamRunnable implements Runnable {
 
         lock.lock();
         try {
+
             resultDto.setName(Thread.currentThread().getName());
+            Thread.sleep(2 * 1000);
             resultDto.setDate(new Date().toString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
