@@ -1,4 +1,4 @@
-package com.codefans.basicjava.lang;
+package com.codefans.basicjava.java.lang;
 
 import org.junit.Test;
 

@@ -1,10 +1,15 @@
 package com.codefans.basicjava.lang.util;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: ShengzhiCai
  * @Date: 2017-10-12 19:59
+ *
+ * 主要功能：
+ *    1.HashMap是如何遍历元素的
+ *
  */
 
 public class HashMapTest<K,V> {
