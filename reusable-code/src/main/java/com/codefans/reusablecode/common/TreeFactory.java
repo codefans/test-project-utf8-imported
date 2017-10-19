@@ -1,10 +1,16 @@
 package com.codefans.reusablecode.common;
 
 /**
- * Created by caishengzhi on 2017/9/28.
+ * @author: caishengzhi
+ * @date: 2017-09-28 10:52
  */
 public interface TreeFactory<T> {
 
+    /**
+     * 创建创建树
+     * @param treeType
+     * @return
+     */
     public T create(String treeType);
 
 }
