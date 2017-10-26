@@ -1,4 +1,4 @@
-package com.codefans.basicjava.lang.util;
+package com.codefans.basicjava.java.util;
 
 import java.util.HashMap;
 import java.util.Map;

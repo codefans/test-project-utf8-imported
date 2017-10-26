@@ -1,7 +1,6 @@
-package com.codefans.basicjava.lang.util;
+package com.codefans.basicjava.java.util;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: ShengzhiCai
