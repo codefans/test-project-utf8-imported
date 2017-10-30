@@ -16,7 +16,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author: caishengzhi
  * @date: 2017-09-28 10:38
  **/
-public class LinkIteratorTest {
+public class BinaryTreeNodeTest {
 
     BinaryTreeNode binaryTreeNode = null;
 
@@ -26,6 +26,9 @@ public class LinkIteratorTest {
         this.binaryTreeNode = treeFactory.create("binary");
     }
 
+    /**
+     * 10, 9, 4, 11, 3, 5,
+     */
     @Test
     public void iterateByLevel() {
 
@@ -34,6 +37,36 @@ public class LinkIteratorTest {
         this.iterateByLevel(binaryTreeNode);
 //        this.iterateByLevelRecursion();
 
+    }
+
+    /**
+     * 10, 4, 9, 5, 3, 11,
+     *
+     */
+    @Test
+    public void invertBinaryTree() {
+        this.invertBinaryTree(binaryTreeNode);
+        this.iterateByLevel(binaryTreeNode);
+    }
+
+    /**
+     * 翻转二叉树：即左右子数对换
+     * @param root
+     * @return
+     */
+    public BinaryTreeNode invertBinaryTree(BinaryTreeNode root) {
+        if(root == null) {
+            return null;
+        }
+
+        root.setLeft(invertBinaryTree(root.getLeft()));
+        root.setRight(invertBinaryTree(root.getRight()));
+
+        BinaryTreeNode temp = root.getLeft();
+        root.setLeft(root.getRight());
+        root.setRight(temp);
+
+        return root;
     }
 
     public void iterateLeft(BinaryTreeNode binaryTreeNode) {
