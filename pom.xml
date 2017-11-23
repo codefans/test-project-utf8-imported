@@ -42,6 +42,19 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
+
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.3</version>
+            </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -55,6 +68,26 @@
                 <version>1.0.0</version>
             </dependency>
 
+
+
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.json-lib</groupId>
+                <artifactId>json-lib</artifactId>
+                <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.40</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -90,15 +123,24 @@
     </build>
 
     <distributionManagement>
+
+        <!--<snapshotRepository>-->
+            <!--<id>snapshots</id>-->
+            <!--<name>snapshot</name>-->
+            <!--<url>http://repo1.maven.org/maven2/</url>-->
+        <!--</snapshotRepository>-->
+
         <snapshotRepository>
             <id>snapshots</id>
             <name>snapshot</name>
-            <url>http://repo1.maven.org/maven2/</url>
+            <url>http://mvnrepository.com/repos/central/</url>
         </snapshotRepository>
+
         <repository>
             <id>releases</id>
             <name>release</name>
-            <url>https://repository.sonatype.org/content/groups/public/</url>
+            <!--<url>https://repository.sonatype.org/content/groups/public/</url>-->
+            <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
         </repository>
     </distributionManagement>
 
