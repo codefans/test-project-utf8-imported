@@ -129,6 +129,8 @@ public class RedisBasicTest extends RedisBaseTest {
      *  BLPOP,BRPOP,BRPOPLPUSH,LINDEX,LINSERT,LLEN,LPOP,LPUSH,LPUSHX,
      *  LRANGE,LREM,LSET,LTRIM, RPOP,RPOPLPUSH,RPUSH,RPUSHX
      *
+     * Jedis操作Redis--List类型
+     * https://www.cnblogs.com/Laymen/p/6121297.html
      */
     @Test
     public void listDataTest() {
