@@ -150,6 +150,13 @@
                 <version>1.6.1</version>
             </dependency>
 
+            <!-- rocketmq client -->
+            <dependency>
+                <groupId>com.alibaba.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>3.2.6</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
