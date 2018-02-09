@@ -56,9 +56,33 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.5</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.3.7</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
             </dependency>
 
             <!-- Kafka -->
@@ -68,37 +92,11 @@
                 <version>1.0.0</version>
             </dependency>
 
-
-
-            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.5.3</version>
-            </dependency>
-
             <dependency>
                 <groupId>net.sf.json-lib</groupId>
                 <artifactId>json-lib</artifactId>
                 <version>2.4</version>
                 <classifier>jdk15</classifier>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.40</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>0.9.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.8.9</version>
             </dependency>
 
             <dependency>
@@ -137,18 +135,6 @@
                 <version>2.9.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.lmax</groupId>
-                <artifactId>disruptor</artifactId>
-                <version>3.3.7</version>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
-            <dependency>
-                <groupId>dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>1.6.1</version>
-            </dependency>
 
             <!-- rocketmq client -->
             <dependency>
@@ -156,6 +142,63 @@
                 <artifactId>rocketmq-client</artifactId>
                 <version>3.2.6</version>
             </dependency>
+
+            <!-- json open source -->
+            <dependency>
+                <groupId>com.dslplatform</groupId>
+                <artifactId>dsl-json</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dslplatform</groupId>
+                <artifactId>dsl-json-processor</artifactId>
+                <version>1.5.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jsoniter</groupId>
+                <artifactId>jsoniter</artifactId>
+                <version>0.9.19</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.dyuproject.protostuff/protostuff-json -->
+            <dependency>
+                <groupId>com.dyuproject.protostuff</groupId>
+                <artifactId>protostuff-json</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.protostuff/protostuff-json -->
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-json</artifactId>
+                <version>1.6.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.9.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.4</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.46</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.2</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

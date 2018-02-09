@@ -70,6 +70,50 @@
             <artifactId>rocketmq-client</artifactId>
         </dependency>
 
+        <!-- json open source -->
+        <dependency>
+            <groupId>com.dslplatform</groupId>
+            <artifactId>dsl-json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dslplatform</groupId>
+            <artifactId>dsl-json-processor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jsoniter</groupId>
+            <artifactId>jsoniter</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.dyuproject.protostuff/protostuff-json -->
+        <dependency>
+            <groupId>com.dyuproject.protostuff</groupId>
+            <artifactId>protostuff-json</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.protostuff/protostuff-json -->
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -96,6 +140,13 @@
                     <source>1.6</source>
                     <encoding>UTF8</encoding>
                     <target>1.6</target>
+                    <compilerArguments>
+                        <!--Adsljson.showdsl>true</Adsljson.showdsl-->
+                        <Adsljson.loglevel>DEBUG</Adsljson.loglevel>
+                        <!--Adsljson.annotation>EXPLICIT</Adsljson.annotation-->
+                        <!--Adsljson.compiler>custom_path_to_compiler/dsl-compiler.exe</Adsljson.compiler-->
+                        <Adsljson.compiler>D:\github\test-project-utf8\open-source\dsl-compiler-1.9\dsl-compiler.exe</Adsljson.compiler>
+                    </compilerArguments>
                 </configuration>
             </plugin>
 
