@@ -21,6 +21,11 @@
  jackson：
  https://github.com/FasterXML/jackson
 
+ https://github.com/FasterXML/jackson-databind
+ Main differences compared to 1.0 "mapper" jar are:
+ Maven build instead of Ant
+ Java package is now com.fasterxml.jackson.databind (instead of org.codehaus.jackson.map)
+
  fastjson:
  https://github.com/mgholam/fastJSON
 
