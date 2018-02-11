@@ -38,6 +38,16 @@
             <artifactId>dom4j</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/xerces/xercesImpl -->
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-ext</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
