@@ -1,4 +1,4 @@
-package com.codefans.basicjava.java7.aio;
+package com.codefans.basicjava.aio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -6,7 +6,7 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:28
  **/
 public class AsyncServerHandler implements Runnable {

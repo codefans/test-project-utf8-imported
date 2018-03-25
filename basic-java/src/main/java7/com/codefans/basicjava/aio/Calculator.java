@@ -1,4 +1,4 @@
-package com.codefans.basicjava.java7.aio;
+package com.codefans.basicjava.aio;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;

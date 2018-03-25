@@ -1,11 +1,12 @@
-package com.codefans.basicjava.java7.aio;
+package com.codefans.basicjava.aio;
 
-import com.codefans.basicjava.java7.aio.client.AioClient;
+
+import com.codefans.basicjava.aio.client.AioClient;
 
 import java.util.Scanner;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:39
  **/
 public class AioTest {

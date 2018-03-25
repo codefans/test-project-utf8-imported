@@ -1,11 +1,11 @@
-package com.codefans.basicjava.java7.aio;
+package com.codefans.basicjava.aio;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:29
  **/
 public class AcceptHandler implements CompletionHandler<AsynchronousSocketChannel, AsyncServerHandler> {

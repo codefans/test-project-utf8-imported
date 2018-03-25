@@ -1,4 +1,4 @@
-package com.codefans.basicjava.java7.aio.client;
+package com.codefans.basicjava.aio.client;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -8,7 +8,7 @@ import java.nio.channels.CompletionHandler;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:30
  **/
 public class ReadHandler  implements CompletionHandler<Integer, ByteBuffer> {

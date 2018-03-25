@@ -1,7 +1,7 @@
-package com.codefans.basicjava.java7.aio;
+package com.codefans.basicjava.aio;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:26
  **/
 public class AioServer {

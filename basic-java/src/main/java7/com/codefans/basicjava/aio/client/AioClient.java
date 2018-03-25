@@ -1,9 +1,9 @@
-package com.codefans.basicjava.java7.aio.client;
+package com.codefans.basicjava.aio.client;
 
 import java.util.Scanner;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-10-25 23:33
  **/
 public class AioClient {
