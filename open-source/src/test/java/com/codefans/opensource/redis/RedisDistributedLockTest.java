@@ -1,7 +1,7 @@
 package com.codefans.opensource.redis;
 
 /**
- * @author caishengzhi
+ * @author codefans
  * @date 2018/1/22 10:33
  *
  * 参考资料：

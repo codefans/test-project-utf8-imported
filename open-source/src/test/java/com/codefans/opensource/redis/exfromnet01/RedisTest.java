@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author caishengzhi
+ * @author codefans
  * @date 2018/1/26 14:38
  */
 public class RedisTest {

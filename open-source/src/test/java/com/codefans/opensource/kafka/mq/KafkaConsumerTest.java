@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-11-23 17:36
  **/
 public class KafkaConsumerTest {

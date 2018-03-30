@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static redis.clients.jedis.BinaryClient.LIST_POSITION;
 
 /**
- * @author caishengzhi
+ * @author codefans
  * @date 2018/1/22 10:53
  * 参考资料：
  *

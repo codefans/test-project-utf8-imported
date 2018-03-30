@@ -3,7 +3,7 @@ package com.codefans.opensource.redis.exfromnet01;
 import redis.clients.jedis.JedisPubSub;
 
 /**
- * @author caishengzhi
+ * @author codefans
  * @date 2018/1/26 18:15
  */
 public class JedisPubSubListener extends JedisPubSub {
