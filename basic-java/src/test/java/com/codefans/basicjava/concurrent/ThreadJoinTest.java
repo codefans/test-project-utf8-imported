@@ -9,6 +9,17 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by codefans on 2018/3/30.
+ *
+ * 参考资料：
+ * Thread.join()的使用
+ * https://blog.csdn.net/fjse51/article/details/54631560
+ *
+ * thread 中join() 的用法
+ * https://blog.csdn.net/leonardo9029/article/details/46343289
+ *
+ * Java Thread join() 的用法
+ * https://www.cnblogs.com/SharkBin/p/4580099.html
+ *
  */
 public class ThreadJoinTest {
 
