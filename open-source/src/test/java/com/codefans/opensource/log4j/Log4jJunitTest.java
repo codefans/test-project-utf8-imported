@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 /**
- * Created by caishengzhi on 2018/3/21.
+ * Created by codefans on 2018/3/21.
  */
 public class Log4jJunitTest {
 

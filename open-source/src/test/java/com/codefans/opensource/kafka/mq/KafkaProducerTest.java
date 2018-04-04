@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.Properties;
 
 /**
- * @author: caishengzhi
+ * @author: codefans
  * @date: 2017-11-23 17:32
  **/
 public class KafkaProducerTest {
