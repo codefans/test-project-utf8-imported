@@ -57,6 +57,7 @@ public class ClassMagicNumberMain {
         //输出魔数
         System.out.print("魔数(magic):0x");
 
+        //四个字节的十六进制表示
         System.out.print(Integer.toHexString(data[0]).substring(6).toUpperCase());
         System.out.print(Integer.toHexString(data[1]).substring(6).toUpperCase());
         System.out.print(Integer.toHexString(data[2]).substring(6).toUpperCase());
