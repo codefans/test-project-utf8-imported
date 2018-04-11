@@ -27,7 +27,7 @@ public class ForNameAndLoadClassTest {
          static block init...
          value+=10;finish. value=11
          forName finish...
-         (cls == myCls2): false
+         (cls == myCls2): true
      */
     public void forNameTest() {
 
@@ -37,14 +37,15 @@ public class ForNameAndLoadClassTest {
 
             String rootDir = "C:\\temp\\classes";
             FileSystemClassLoader myLoader = new FileSystemClassLoader(rootDir);
+            //Class.forName会触发ClassForInitTestBean类的初始化
             Class cls = Class.forName(className, true, myLoader);
             System.out.println("forName finish...");
 
             String rootDir2 = "C:\\temp\\classes2";
             FileSystemClassLoader myLoader2 = new FileSystemClassLoader(rootDir2);
+            //loadClass不会触发ClassForInitTestBean类的初始化
             Class myCls2 = myLoader2.loadClass(className);
 
-            //自定义类加载器加载不同路径下的class时, 属于不同的类加载器, 即使他们是相同的类
             System.out.println("(cls == myCls2): " + (cls == myCls2));
 
         } catch (Exception e) {
