@@ -11,8 +11,8 @@ public class DsljsonRuntimePerformanceTest {
     @Test
     public void runTimeTest() {
 
-        DsljsonRuntimePerformance dslJson = new DsljsonRuntimePerformance();
-        dslJson.runTime();
+//        DsljsonRuntimePerformance dslJson = new DsljsonRuntimePerformance();
+//        dslJson.runTime();
 
     }
 

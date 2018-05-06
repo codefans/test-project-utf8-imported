@@ -159,13 +159,10 @@
                     <source>1.6</source>
                     <encoding>UTF8</encoding>
                     <target>1.6</target>
-                    <compilerArguments>
-                        <!--Adsljson.showdsl>true</Adsljson.showdsl-->
-                        <Adsljson.loglevel>DEBUG</Adsljson.loglevel>
-                        <!--Adsljson.annotation>EXPLICIT</Adsljson.annotation-->
-                        <!--Adsljson.compiler>custom_path_to_compiler/dsl-compiler.exe</Adsljson.compiler-->
-                        <Adsljson.compiler>D:\github\test-project-utf8\open-source\dsl-compiler-1.9\dsl-compiler.exe</Adsljson.compiler>
-                    </compilerArguments>
+                    <!--<compilerArguments>-->
+                        <!--<Adsljson.loglevel>DEBUG</Adsljson.loglevel>-->
+                        <!--<Adsljson.compiler>D:\github\test-project-utf8\open-source\dsl-compiler-1.9\dsl-compiler.exe</Adsljson.compiler>-->
+                    <!--</compilerArguments>-->
                 </configuration>
             </plugin>
 
