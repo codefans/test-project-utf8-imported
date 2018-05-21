@@ -132,6 +132,13 @@
             <artifactId>jedis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
+        </dependency>
+
+
+
 
     </dependencies>
 
