@@ -1,28 +1,29 @@
-//package com.codefans.opensource.json.performance;
-//
+package com.codefans.opensource.json.performance;
+
 //import com.dslplatform.json.*;
-//import org.springframework.ui.Model;
-//
-//import java.io.*;
-//import java.math.BigDecimal;
-//import java.util.*;
-//
-///**
-// * @author caishengzhi
-// * @date 2018/2/8 21:53
-// */
-//public class DsljsonRuntimePerformance extends AbstractRuntimePerformance {
-//
-//    @Override
-//    public void execute() {
-//
-////        this.officialExample();
-//
-//        this.dslJsonTest();
-//
-//    }
-//
-//    public void officialExample() {
+import org.springframework.ui.Model;
+
+import java.io.*;
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * @author caishengzhi
+ * @date 2018/2/8 21:53
+ */
+public class DsljsonRuntimePerformance extends AbstractRuntimePerformance {
+
+    @Override
+    public void execute() {
+
+//        this.officialExample();
+
+        this.dslJsonTest();
+
+    }
+
+    public void officialExample() {
+
 //        try {
 //            //ServiceLoader.load will load Model since it will be registered into META-INF/services during annotation processing
 //            DslJson<Object> dslJson = new DslJson<Object>();
@@ -74,10 +75,13 @@
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//    }
-//
-//    public void dslJsonTest() {
-//
+
+
+
+    }
+
+    public void dslJsonTest() {
+
 //        try {
 //
 //
@@ -108,10 +112,10 @@
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//
-//
-//    }
-//
+
+
+    }
+
 //    @CompiledJson(onUnknown = CompiledJson.Behavior.IGNORE) //ignore unknown properties (default for objects). to disallow unknown properties in JSON set it to FAIL which will result in exception instead
 //    public static class Model {
 //        @JsonAttribute(nullable = false) //indicate that field can't be null
@@ -269,6 +273,6 @@
 //            };
 //        }
 //    }
-//
-//
-//}
+
+
+}

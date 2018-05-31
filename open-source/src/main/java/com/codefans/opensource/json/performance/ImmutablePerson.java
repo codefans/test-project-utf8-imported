@@ -1,51 +1,51 @@
-//package com.codefans.opensource.json.performance;
-//
+package com.codefans.opensource.json.performance;
+
 //import com.dslplatform.json.*;
-//
-//import java.io.IOException;
-//
-///**
-// * @author caishengzhi
-// * @date 2018/2/8 23:20
-// */
-//public class ImmutablePerson {
-//
-//    public String firstName;
-//    public String lastName;
-//    public int age;
-//
-//    public ImmutablePerson() {
-//
-//    }
-//
-//    public ImmutablePerson(String firstName, String lastName, int age) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.age = age;
-//    }
-//
+
+import java.io.IOException;
+
+/**
+ * @author caishengzhi
+ * @date 2018/2/8 23:20
+ */
+public class ImmutablePerson {
+
+    public String firstName;
+    public String lastName;
+    public int age;
+
+    public ImmutablePerson() {
+
+    }
+
+    public ImmutablePerson(String firstName, String lastName, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
+
 //    @CompiledJson
-//    public static final class DTO {
-//        public String firstName;
-//        public String lastName;
-//        public int age;
-//    }
-//
-//    private ImmutablePerson(DTO dto) {
-//        this.firstName = dto.firstName;
-//        this.lastName = dto.lastName;
-//        this.age = dto.age;
-//    }
-//
-//    private DTO toDto() {
-//        DTO dto = new DTO();
-//        dto.firstName = this.firstName;
-//        dto.lastName = this.lastName;
-//        dto.age = this.age;
-//        return dto;
-//    }
-//
-//    //this class also implements DSL-JSON Configuration... which is registered after code-gen one
+    public static final class DTO {
+        public String firstName;
+        public String lastName;
+        public int age;
+    }
+
+    private ImmutablePerson(DTO dto) {
+        this.firstName = dto.firstName;
+        this.lastName = dto.lastName;
+        this.age = dto.age;
+    }
+
+    private DTO toDto() {
+        DTO dto = new DTO();
+        dto.firstName = this.firstName;
+        dto.lastName = this.lastName;
+        dto.age = this.age;
+        return dto;
+    }
+
+    //this class also implements DSL-JSON Configuration... which is registered after code-gen one
 //    @JsonConverter(target = ImmutablePerson.class)
 //    public static class PersonJsonBuilder implements Configuration {
 //        private static JsonReader.ReadObject<DTO> READER;
@@ -73,5 +73,8 @@
 //            }
 //        };
 //    }
-//
-//}
+
+
+
+
+}
