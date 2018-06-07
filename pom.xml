@@ -31,6 +31,37 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.codefans</groupId>
+                <artifactId>basic-java</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codefans</groupId>
+                <artifactId>interview-case</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codefans</groupId>
+                <artifactId>open-source</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codefans</groupId>
+                <artifactId>practice-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codefans</groupId>
+                <artifactId>reusable-code</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>

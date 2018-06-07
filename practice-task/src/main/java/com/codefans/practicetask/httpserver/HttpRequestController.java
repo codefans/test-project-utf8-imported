@@ -1,6 +1,7 @@
 package com.codefans.practicetask.httpserver;
 
 import com.alibaba.fastjson.JSON;
+import com.codefans.reusablecode.util.SignUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,19 @@ public class HttpRequestController {
         ResponseEntity<String> entity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(jsonResult);
         return entity;
     }
+
+    @PostMapping(path = "/faceDetect")
+    public ResponseEntity<String> faceDetect(@ModelAttribute Map<String, Object> paramMap) {
+        String jsonResult = "I am Post method!!! post request content is:[" + JSON.toJSONString(paramMap) + "]";
+
+        boolean validateSuccess = SignUtils.validateSignature(paramMap);
+        jsonResult = jsonResult + ", validate result:[" + validateSuccess + "]";
+
+        ResponseEntity<String> entity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON_UTF8).body(jsonResult);
+        return entity;
+    }
+
+
+
 
 }

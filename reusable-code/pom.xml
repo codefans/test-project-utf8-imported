@@ -15,6 +15,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.codefans</groupId>
+            <artifactId>basic-java</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

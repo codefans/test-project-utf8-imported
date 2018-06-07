@@ -32,14 +32,14 @@ public class HttpClientV455 {
 
             ResponseContent responseContent = null;
 
-            String postUri = "http://localhost:8080/admin/addDomain";
+            String postUri = "http://localhost:8080/admin/faceDetect";
             Map<String, String> params = new HashMap<String, String>();
             params.put("username", "zhangsan");
             params.put("password", "1234");
-//            responseContent = doPost(postUri, params);
+            responseContent = doPost(postUri, params);
 
-            String getUri = "http://localhost:8080/admin/queryGetString?username=zhangsan&password=123666888";
-            responseContent = doGet(getUri);
+//            String getUri = "http://localhost:8080/admin/queryGetString?username=zhangsan&password=123666888";
+//            responseContent = doGet(getUri);
 
             System.out.println("返回结果为:");
             System.out.println(responseContent.getResponseContentString());

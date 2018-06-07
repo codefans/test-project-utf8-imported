@@ -93,7 +93,7 @@ public class StringsSortByDict {
 //        abcABC, abcdefg, efg
 //
 
-        Map<String, String> datas = new HashMap<String, String>();
+        Map<String, Object> datas = new HashMap<String, Object>();
         datas.put("abcdefg", "张三");
         datas.put("abcABC", "李四");
         datas.put("efg", "王五");
@@ -146,7 +146,7 @@ public class StringsSortByDict {
 
     }
 
-    public String sortedDictStr(Map<String, String> datas) {
+    public String sortedDictStr(Map<String, Object> datas) {
         StringBuilder sb = new StringBuilder();
 
         List<String> keyList = new ArrayList<String>();
@@ -165,7 +165,7 @@ public class StringsSortByDict {
 //        this.print(keyList);
 
         String key = "";
-        String val = "";
+        Object val = "";
         for(int i = 0; i < keyList.size(); i ++) {
             key = keyList.get(i);
             val = datas.get(key);

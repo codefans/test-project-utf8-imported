@@ -74,7 +74,7 @@ public class Base64FileDecoderUtil {
 		File decode = new File("H:/274500.jpg");
 //		decoder.str2file(str, decode);
 		
-		decoder.file2str("C:\\Users\\Sean\\Downloads\\奇色视频地址发布器二维码版_qiseqr.zip");
+		decoder.file2str("/Users/caishengzhi/Downloads/林峰.jpg");
 
 	}
 
@@ -283,6 +283,15 @@ public class Base64FileDecoderUtil {
 		}
 		base64Str = sb.toString();
 		System.out.println(base64Str);
+
+		try {
+			File base64StrOutFile = new File("/githubForSourcetree/pic_beauty_ranking/src/main/resources/base64Str.txt");
+			FileUtils.writeStringToFile(base64StrOutFile, base64Str, true);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return base64Str;
 		
 	}
