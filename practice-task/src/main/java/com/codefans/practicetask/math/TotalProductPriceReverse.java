@@ -52,6 +52,11 @@ public class TotalProductPriceReverse {
     private List<BigDecimal> defaultUnitPriceList = new ArrayList<BigDecimal>();
 
     /**
+     * 在默认单价基础上向上或向下浮动的步长
+     */
+    private BigDecimal unitPriceStep = new BigDecimal("10");
+
+    /**
      * 重量列表
      */
     private List<BigDecimal> weightList = new ArrayList<BigDecimal>();
@@ -69,9 +74,8 @@ public class TotalProductPriceReverse {
 
     public void execute() {
 
-        this.executeMethod01();
-
-        this.executeMethod02();
+//        this.executeMethod01();
+        this.executeNoForNest();
 
     }
 
@@ -172,7 +176,7 @@ public class TotalProductPriceReverse {
     /**
      * 非嵌套for循环
      */
-    public void executeMethod02() {
+    public void executeNoForNest() {
 
         long startTime = System.currentTimeMillis();
 
@@ -204,74 +208,123 @@ public class TotalProductPriceReverse {
 
     public void calculate(BigDecimal totalPrice, List<BigDecimal> weightList, List<BigDecimal> defaultUnitPriceList) {
 
-//        int beginIndex01 = generateBeginIndex(defaultUnitPrice01, new BigDecimal("10"));
-//        int beginIndex02 = generateBeginIndex(defaultUnitPrice02, new BigDecimal("10"));
-//        System.out.println("beginIndex01:" + beginIndex01);
-//        System.out.println("beginIndex02:" + beginIndex02);
-//
-//        int endIndex01 = generateEndIndex(defaultUnitPrice01, new BigDecimal("10"));
-//        int endIndex02 = generateEndIndex(defaultUnitPrice02, new BigDecimal("10"));
-//        System.out.println("endIndex01:" + endIndex01);
-//        System.out.println("endIndex02:" + endIndex02);
-//
-//        productAmount = weightList.size();
-//        System.out.println("productAmount:" + productAmount);
-//
-//        unitPriceList = generateUnitPrice(productAmount);
-//
-//        int maxLoop = generateMaxLoop(totalPrice, productAmount);
-//        System.out.println("maxLoop:" + maxLoop);
-//
-////        System.out.println(addUnitPrice(new BigDecimal("0.01")));
-//
-//        int index = 0;
-//        BigDecimal weight01 = weights[index++];
-//        BigDecimal weight02 = weights[index++];
-////        BigDecimal weight03 = weights[index++];
-//
-//        BigDecimal unitPrice01 = null;
-//        BigDecimal unitPrice02 = null;
-//        BigDecimal unitPrice03 = null;
-//
-//        BigDecimal total01 = null;
-//        BigDecimal total02 = null;
-//        BigDecimal total03 = null;
-//        BigDecimal total = null;
-//
-//        int resultIndex = 1;
-//
-//        forLoop:
-//        for(int i = beginIndex01; i <= endIndex01; i ++) {
-//            for(int j = beginIndex02; j <= endIndex02; j ++) {
-////                for(int k = 1; k <= maxLoop; k ++) {
-//                unitPrice01 = this.multiply(new BigDecimal("0.01"), new BigDecimal(i));
-//                unitPrice02 = this.multiply(new BigDecimal("0.01"), new BigDecimal(j));
-////                    unitPrice03 = this.multiply(new BigDecimal("0.01"), new BigDecimal(k));
-//
-//                total01 = this.multiply(weight01, unitPrice01);
-//                total02 = this.multiply(weight02, unitPrice02);
-////                    total03 = this.multiply(weight03, unitPrice03);
-////                    total = this.add(this.add(total01, total02), total03);
-//                total = this.add(total01, total02);
-//
-////                    System.out.println("unitPrice01:[" + unitPrice01 + "], unitPrice02:[" + unitPrice02 + "], unitPrice03:[" + unitPrice03 + "], total:[" + total + "]");
-//
-//                if(totalPrice.compareTo(total) == 0) {
-////                        System.out.println("i:" + i + ", j:" + j + ", k:" + k);
-//
-//                    System.out.println("================result:[" + (resultIndex++) + "]=================");
-//                    System.out.println(unitPrice01 + " * " + weight01 + " = " + total01);
-//                    System.out.println(unitPrice02 + " * " + weight02 + " = " + total02);
-////                        System.out.println(unitPrice03 + " * " + weight03 + " = " + total03);
-////                        System.out.println(total01 + " + " + total02 + " + " + total03 + " = " + total);
-//                    System.out.println(total01 + " + " + total02 + " = " + total);
-//
-////                        break forLoop;
-//                }
-//
-////                }
-//            }
-//        }
+        List<Integer> beginIndexList = new ArrayList<Integer>(defaultUnitPriceList.size());
+        List<Integer> endIndexList = new ArrayList<Integer>(defaultUnitPriceList.size());
+
+        List<Integer> lengthList = new ArrayList<Integer>();
+        List<Integer> indexList = new ArrayList<Integer>();
+
+        int beginIndex = 0;
+        int endIndex = 0;
+        int length = 0;
+        BigDecimal defaultUnitPrice = null;
+        List<List<Integer>> unitPriceList = new ArrayList<List<Integer>>();
+        List<Integer> itemList = null;
+        for(int i = 0; i < defaultUnitPriceList.size(); i ++) {
+            defaultUnitPrice = defaultUnitPriceList.get(i);
+            beginIndex = generateBeginIndex(defaultUnitPrice, unitPriceStep);
+            endIndex = generateEndIndex(defaultUnitPrice, unitPriceStep);
+            length = endIndex - beginIndex + 1;
+
+            itemList = new ArrayList<Integer>();
+            for(int j = beginIndex; j <= endIndex; j ++) {
+                itemList.add(j);
+            }
+
+            beginIndexList.add(beginIndex);
+            endIndexList.add(endIndex);
+            lengthList.add(length);
+            indexList.add(new Integer("0"));
+            unitPriceList.add(itemList);
+        }
+
+        if(beginIndexList.size() != endIndexList.size()) {
+            throw new RuntimeException("beginIndexList和endIndexList大小不一致!");
+        }
+
+        boolean process = true;
+        BigDecimal weight = null;
+        int index = 0;
+        int commonSize = unitPriceList.size();
+        length = 0;
+        itemList = null;
+        int firstLen = lengthList.get(0);
+        int firstIndex = indexList.get(0);
+        int currentLen = 0;
+        int currentIndex = 0;
+        BigDecimal total = new BigDecimal(0);
+        int item = 0;
+        BigDecimal singlePrice = null;
+        BigDecimal singleTotalPrice = null;
+
+        List<BigDecimal> singlePriceList = new ArrayList<BigDecimal>();
+        List<BigDecimal> singleTotalPriceList = new ArrayList<BigDecimal>();
+
+        whileLoop:
+        while(process) {
+
+            index++;
+
+            total = new BigDecimal(0);
+            for(int i = 0; i < commonSize; i ++) {
+                if(i == 0) {
+                    firstLen = lengthList.get(i);
+                    firstIndex = indexList.get(i);
+                    currentLen = firstLen;
+                    currentIndex = firstIndex;
+                } else {
+                    currentLen = lengthList.get(i);
+                    currentIndex = indexList.get(i);
+                    if(currentIndex == firstLen - 1) {
+                        process = false;
+                        break whileLoop;
+                    }
+                    if(currentIndex == currentLen - 1) {
+                        int lastIndex = indexList.get(i - 1);
+                        indexList.set(i - 1, lastIndex + 1);
+                    }
+                }
+
+                itemList = unitPriceList.get(i);
+                item = itemList.get(currentIndex);
+
+                singlePrice = this.devide(new BigDecimal(item), unitPriceStep);
+                singleTotalPrice = this.multiply(weightList.get(i), singlePrice);
+                singlePriceList.add(singlePrice);
+                singleTotalPriceList.add(singleTotalPrice);
+
+                total = total.add(singleTotalPrice);
+
+            }
+
+            if(totalPrice.compareTo(total) == 0) {
+
+                System.out.println("================result:[" + (index) + "]=================");
+                for(int j = 0; j < singlePriceList.size(); j ++) {
+                    singlePrice = singlePriceList.get(j);
+                    weight = weightList.get(j);
+                    singleTotalPrice = singleTotalPriceList.get(j);
+                    System.out.println(singlePrice + " * " + weight + " = " + singleTotalPrice);
+                }
+
+                for(int k = 0; k < singleTotalPriceList.size(); k ++) {
+                    singleTotalPrice = singleTotalPriceList.get(k);
+                    if(k == singleTotalPriceList.size() - 1) {
+                        System.out.println(singleTotalPrice + " = " + total);
+                    } else {
+                        System.out.print(singleTotalPrice + " + ");
+                    }
+                }
+//                System.out.println(unitPrice01 + " * " + weight01 + " = " + total01);
+//                System.out.println(unitPrice02 + " * " + weight02 + " = " + total02);
+//                System.out.println(total01 + " + " + total02 + " = " + total);
+
+            }
+
+            process = false;
+
+        }
+
 
     }
 

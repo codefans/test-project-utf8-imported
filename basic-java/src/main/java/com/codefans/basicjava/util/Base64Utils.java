@@ -23,8 +23,14 @@ public class Base64Utils {
 
     public static String encode(byte[] bytes) {
 
+        StringBuilder sb = new StringBuilder();
+
         Byte.parseByte("", 2);
         Integer.parseInt("", 2);
+
+        for(int i = 0; i < bytes.length; i ++) {
+
+        }
 
         return "";
     }

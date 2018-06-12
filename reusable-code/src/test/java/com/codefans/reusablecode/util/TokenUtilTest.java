@@ -61,6 +61,10 @@ public class TokenUtilTest {
 
             TokenUtil.parseToken(token);
 
+            System.out.println("timestamp:" + System.currentTimeMillis());
+            System.out.println("timestamp2:" + System.nanoTime());
+            System.out.println("nonce:" + Md5Utils.getMd5Str(String.valueOf(System.currentTimeMillis())));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

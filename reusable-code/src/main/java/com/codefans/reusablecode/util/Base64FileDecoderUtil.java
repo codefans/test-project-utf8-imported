@@ -2,12 +2,12 @@ package com.codefans.reusablecode.util;
 
 import java.io.*;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64EncoderStream;
+//import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64DecoderStream;
+//import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BASE64EncoderStream;
 import org.apache.commons.io.FileUtils;
 
-//import com.sun.mail.util.BASE64DecoderStream;
-//import com.sun.mail.util.BASE64EncoderStream;
+import com.sun.mail.util.BASE64DecoderStream;
+import com.sun.mail.util.BASE64EncoderStream;
 
 public class Base64FileDecoderUtil {
 
