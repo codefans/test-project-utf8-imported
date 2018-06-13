@@ -283,7 +283,7 @@ public class UnitPriceReverse {
 
 //        totalPrice = new BigDecimal("88800.00");
 //        totalPrice = new BigDecimal("30408.46");
-        totalPrice = new BigDecimal("29903.96");
+        totalPrice = new BigDecimal("2698.18");
 
         //运费：2700
         System.out.println("totalPrice:" + totalPrice);
@@ -346,8 +346,26 @@ public class UnitPriceReverse {
             new BigDecimal("352.8")
         };
 
-        defaultUnitPriceList = Arrays.asList(defaultUnitPrices);
-        this.calculate(totalPrice, weightList, defaultUnitPriceList);
+        BigDecimal total = new BigDecimal("0");
+        BigDecimal min = new BigDecimal("0.01");
+        BigDecimal maxUnitPrice = this.add(totalPrice, new BigDecimal("132.6"));
+        BigDecimal unitPrice = null;
+        boolean run = true;
+        int index = 1;
+        while(run) {
+            for (int i = 0; i < defaultUnitPrices.length; i++) {
+                unitPrice = defaultUnitPrices[i];
+                total = this.add(total, this.multiply(this.add(unitPrice, this.multiply(min, new BigDecimal(index))), weights[i]));
+                if (total.compareTo(totalPrice) > 0 && total.compareTo(maxUnitPrice) < 0) {
+                    System.out.println("index:" + index + ", i:" + i);
+                    run = false;
+                }
+            }
+            index++;
+        }
+
+//        defaultUnitPriceList = Arrays.asList(defaultUnitPrices);
+//        this.calculate(totalPrice, weightList, defaultUnitPriceList);
 
         long endTime = System.currentTimeMillis();
         System.out.println("total cost:[" + (endTime - startTime) / 1000 + "s]");
