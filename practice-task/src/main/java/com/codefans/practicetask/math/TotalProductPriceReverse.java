@@ -186,18 +186,76 @@ public class TotalProductPriceReverse {
 
         long startTime = System.currentTimeMillis();
 
-        totalPrice = new BigDecimal("21191.60");
+//        totalPrice = new BigDecimal("88800.00");
+        totalPrice = new BigDecimal("30408.46");
         System.out.println("totalPrice:" + totalPrice);
 
+//        BigDecimal[] weights = new BigDecimal[]{
+//                new BigDecimal("46.10"),
+//                new BigDecimal("49.80"),
+//                new BigDecimal("27.72"),
+//                new BigDecimal("15.30"),
+//                new BigDecimal("18.00"),
+//                new BigDecimal("30.60"),
+//                new BigDecimal("36.30"),
+//                new BigDecimal("15"),
+//                new BigDecimal("40.3"),
+//                new BigDecimal("29.40"),
+//                new BigDecimal("33"),
+//                new BigDecimal("1.00"),
+//                new BigDecimal("72"),
+//                new BigDecimal("30.00"),
+//                new BigDecimal("20"),
+//                new BigDecimal("14.5"),
+//                new BigDecimal("10"),
+//                new BigDecimal("10"),
+//                new BigDecimal("11"),
+//                new BigDecimal("10"),
+//                new BigDecimal("3.45"),
+//                new BigDecimal("3"),
+//                new BigDecimal("13.3"),
+//                new BigDecimal("86.50")
+//        };
         BigDecimal[] weights = new BigDecimal[]{
-                new BigDecimal("27.50"),
-                new BigDecimal("219.60")
+                new BigDecimal("46.10"),
+                new BigDecimal("49.80"),
+                new BigDecimal("27.72"),
+                new BigDecimal("15.30")
         };
         weightList = Arrays.asList(weights);
 
+//        BigDecimal[] defaultUnitPrices = new BigDecimal[]{
+//            new BigDecimal("186.2"),
+//            new BigDecimal("186.2"),
+//            new BigDecimal("264.6"),
+//            new BigDecimal("164.64"),
+//            new BigDecimal("127.4"),
+//            new BigDecimal("66.64"),
+//            new BigDecimal("88.2"),
+//            new BigDecimal("196"),
+//            new BigDecimal("88.2"),
+//            new BigDecimal("88.2"),
+//            new BigDecimal("35.28"),
+//            new BigDecimal("1225"),
+//            new BigDecimal("29.4"),
+//            new BigDecimal("63.7"),
+//            new BigDecimal("27.44"),
+//            new BigDecimal("112.7"),
+//            new BigDecimal("25.48"),
+//            new BigDecimal("4.9"),
+//            new BigDecimal("93.1"),
+//            new BigDecimal("31.36"),
+//            new BigDecimal("156.8"),
+//            new BigDecimal("56.84"),
+//            new BigDecimal("22.54"),
+//            new BigDecimal("352.8")
+//        };
+
         BigDecimal[] defaultUnitPrices = new BigDecimal[]{
-            new BigDecimal("191.1"),
-            new BigDecimal("66.64")
+                new BigDecimal("186.2"),
+                new BigDecimal("186.2"),
+                new BigDecimal("264.6"),
+                new BigDecimal("164.64")
         };
 
         defaultUnitPriceList = Arrays.asList(defaultUnitPrices);
