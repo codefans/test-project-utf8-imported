@@ -28,6 +28,7 @@ public class ArrayListTest {
 
         this.print(itemlist);
 
+        System.out.println("总金额除以单价：");
         BigDecimal[] defaultUnitPrices = new BigDecimal[]{
                 new BigDecimal("186.2"),
                 new BigDecimal("186.2"),
@@ -60,11 +61,42 @@ public class ArrayListTest {
             System.out.println(devide(total, defaultUnitPrices[i]));
         }
 
+        System.out.println("总金额除以数量：");
+        BigDecimal[] weights = new BigDecimal[]{
+                new BigDecimal("46.10"),
+                new BigDecimal("49.80"),
+                new BigDecimal("27.72"),
+                new BigDecimal("15.30"),
+                new BigDecimal("18.00"),
+                new BigDecimal("30.60"),
+                new BigDecimal("36.30"),
+                new BigDecimal("15"),
+                new BigDecimal("40.3"),
+                new BigDecimal("29.40"),
+                new BigDecimal("33"),
+                new BigDecimal("1.00"),
+                new BigDecimal("72"),
+                new BigDecimal("30.00"),
+                new BigDecimal("20"),
+                new BigDecimal("14.5"),
+                new BigDecimal("10"),
+                new BigDecimal("10"),
+                new BigDecimal("11"),
+                new BigDecimal("10"),
+                new BigDecimal("3.45"),
+                new BigDecimal("3"),
+                new BigDecimal("13.3"),
+                new BigDecimal("86.50")
+        };
+
+        for(int i = 0; i < weights.length; i ++) {
+            System.out.println(devide(total, weights[i]));
+        }
 
     }
 
     public BigDecimal devide(BigDecimal num01, BigDecimal num02) {
-        return num01.divide(num02, 2, BigDecimal.ROUND_HALF_UP);
+        return num01.divide(num02, 4, BigDecimal.ROUND_HALF_UP);
 //        return num01.divide(num02);
     }
 
