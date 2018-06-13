@@ -34,6 +34,9 @@ import java.util.List;
  * 也可以自动计算参考单价，单价从1开始，以步长1开始增长，算出最大的单价列表。
  * 这种方法有个问题:可能有点单价很高，有的单价很低，所以最好还是给出参考单价，这样最精确。
  *
+ * 2018-06-13
+ * 新增非嵌套for循环算法实现
+ *
  */
 
 public class TotalProductPriceReverse {
@@ -206,6 +209,14 @@ public class TotalProductPriceReverse {
 
     }
 
+    /**
+     * 总价
+     * @param totalPrice
+     * 重量列表
+     * @param weightList
+     * 参考单价列表
+     * @param defaultUnitPriceList
+     */
     public void calculate(BigDecimal totalPrice, List<BigDecimal> weightList, List<BigDecimal> defaultUnitPriceList) {
 
         List<Integer> beginIndexList = new ArrayList<Integer>(defaultUnitPriceList.size());
@@ -329,7 +340,7 @@ public class TotalProductPriceReverse {
 
             }
 
-            //不管有没有找到匹配的，都需要清空这两个列表
+            //不管有没有找到匹配的，都需要清空这两个列表。否则当找到匹配的数据，会把不匹配的数据也打印出来。
             singlePriceList.clear();
             singleTotalPriceList.clear();
 
