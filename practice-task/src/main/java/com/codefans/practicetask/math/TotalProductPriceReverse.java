@@ -57,6 +57,12 @@ public class TotalProductPriceReverse {
     private BigDecimal unitPriceStep = new BigDecimal("10");
 
     /**
+     * 价格与下标转换的系数，由于价格是保留两位小数，所以乘以100后，就是整数，就可以作为数组下标进行遍历
+     * 由价格保留几位小数决定
+     */
+    private BigDecimal priceIndexRadio = new BigDecimal("100");
+
+    /**
      * 重量列表
      */
     private List<BigDecimal> weightList = new ArrayList<BigDecimal>();
@@ -117,12 +123,9 @@ public class TotalProductPriceReverse {
         int maxLoop = generateMaxLoop(totalPrice, productAmount);
         System.out.println("maxLoop:" + maxLoop);
 
-//        System.out.println(addUnitPrice(new BigDecimal("0.01")));
-
         int index = 0;
         BigDecimal weight01 = weights[index++];
         BigDecimal weight02 = weights[index++];
-//        BigDecimal weight03 = weights[index++];
 
         BigDecimal unitPrice01 = null;
         BigDecimal unitPrice02 = null;
@@ -186,12 +189,9 @@ public class TotalProductPriceReverse {
         BigDecimal[] weights = new BigDecimal[]{
                 new BigDecimal("27.50"),
                 new BigDecimal("219.60")
-//            new BigDecimal("6.00")
         };
         weightList = Arrays.asList(weights);
 
-//        BigDecimal defaultUnitPrice01 = new BigDecimal("191.1");
-//        BigDecimal defaultUnitPrice02 = new BigDecimal("66.64");
         BigDecimal[] defaultUnitPrices = new BigDecimal[]{
             new BigDecimal("191.1"),
             new BigDecimal("66.64")
@@ -222,6 +222,7 @@ public class TotalProductPriceReverse {
         List<Integer> itemList = null;
         for(int i = 0; i < defaultUnitPriceList.size(); i ++) {
             defaultUnitPrice = defaultUnitPriceList.get(i);
+            //将默认单价上下浮动一定步长(unitPriceStep)，作为穷举的开始和结束下标
             beginIndex = generateBeginIndex(defaultUnitPrice, unitPriceStep);
             endIndex = generateEndIndex(defaultUnitPrice, unitPriceStep);
             length = endIndex - beginIndex + 1;
@@ -244,12 +245,11 @@ public class TotalProductPriceReverse {
 
         boolean process = true;
         BigDecimal weight = null;
-        int index = 0;
+        int index = 1;
         int commonSize = unitPriceList.size();
-        length = 0;
         itemList = null;
-        int firstLen = lengthList.get(0);
-        int firstIndex = indexList.get(0);
+        int firstLen = 0;
+        int firstIndex = 0;
         int currentLen = 0;
         int currentIndex = 0;
         BigDecimal total = new BigDecimal(0);
@@ -260,40 +260,50 @@ public class TotalProductPriceReverse {
         List<BigDecimal> singlePriceList = new ArrayList<BigDecimal>();
         List<BigDecimal> singleTotalPriceList = new ArrayList<BigDecimal>();
 
-        whileLoop:
         while(process) {
-
-            index++;
 
             total = new BigDecimal(0);
             for(int i = 0; i < commonSize; i ++) {
                 if(i == 0) {
                     firstLen = lengthList.get(i);
                     firstIndex = indexList.get(i);
-                    currentLen = firstLen;
                     currentIndex = firstIndex;
+                    //如果第一行的下标等于第一行的长度减1,那么说明遍历结束了,退出循环
+                    if(currentIndex == firstLen - 1) {
+                        process = false;
+                    }
                 } else {
                     currentLen = lengthList.get(i);
                     currentIndex = indexList.get(i);
-                    if(currentIndex == firstLen - 1) {
-                        process = false;
-                        break whileLoop;
-                    }
+
+                    //从第二行开始, 如果当前行的下标走到最大值, 则：
+                    //1.将上一行的下标加1;
+                    //2.将本行的下标置为0;
                     if(currentIndex == currentLen - 1) {
                         int lastIndex = indexList.get(i - 1);
                         indexList.set(i - 1, lastIndex + 1);
+                        indexList.set(i, 0);
+                        break;
                     }
                 }
 
                 itemList = unitPriceList.get(i);
                 item = itemList.get(currentIndex);
 
-                singlePrice = this.devide(new BigDecimal(item), unitPriceStep);
-                singleTotalPrice = this.multiply(weightList.get(i), singlePrice);
+                //由于item是价格乘以priceIndexRadio后的作为索引下标使用的整数，所以这里要再除以priceIndexRadio
+                singlePrice = this.devide(new BigDecimal(item), priceIndexRadio);
+                //单价乘以重量
+                singleTotalPrice = this.multiply(singlePrice, weightList.get(i));
                 singlePriceList.add(singlePrice);
                 singleTotalPriceList.add(singleTotalPrice);
 
                 total = total.add(singleTotalPrice);
+
+                //从最后一行的下标开始加
+                if(i == commonSize - 1) {
+                    indexList.set(i, currentIndex + 1);
+                }
+
 
             }
 
@@ -315,13 +325,13 @@ public class TotalProductPriceReverse {
                         System.out.print(singleTotalPrice + " + ");
                     }
                 }
-//                System.out.println(unitPrice01 + " * " + weight01 + " = " + total01);
-//                System.out.println(unitPrice02 + " * " + weight02 + " = " + total02);
-//                System.out.println(total01 + " + " + total02 + " = " + total);
+                index++;
 
             }
 
-            process = false;
+            //不管有没有找到匹配的，都需要清空这两个列表
+            singlePriceList.clear();
+            singleTotalPriceList.clear();
 
         }
 
@@ -339,25 +349,20 @@ public class TotalProductPriceReverse {
     public int generateMaxLoop(BigDecimal totalPrice, int productAmount) {
         int maxLoop = 0;
         int scale = 2;
-        maxLoop = totalPrice.divide(new BigDecimal(productAmount), 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        maxLoop = totalPrice.divide(new BigDecimal(productAmount), 2, BigDecimal.ROUND_HALF_UP).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         return maxLoop;
     }
 
     public int generateBeginIndex(BigDecimal defaultPrice, BigDecimal priceStep) {
         int beginIndex = 0;
-        beginIndex = defaultPrice.subtract(priceStep).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        beginIndex = defaultPrice.subtract(priceStep).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         return beginIndex;
     }
 
     public int generateEndIndex(BigDecimal defaultPrice, BigDecimal priceStep) {
         int beginIndex = 0;
-        beginIndex = defaultPrice.add(priceStep).multiply(new BigDecimal("100")).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+        beginIndex = defaultPrice.add(priceStep).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         return beginIndex;
-    }
-
-    public BigDecimal addUnitPrice(BigDecimal unitPrice) {
-        BigDecimal addedUnitPrice = unitPrice.add(new BigDecimal("0.01")).setScale(2, BigDecimal.ROUND_HALF_UP);
-        return addedUnitPrice;
     }
 
     public BigDecimal devide(BigDecimal num01, BigDecimal num02) {
