@@ -38,7 +38,7 @@ import java.util.*;
  *
  */
 
-public class UnitPriceReverse {
+public class UnitPriceReverse extends AbstractUnitPriceReverse {
 
     private BigDecimal totalPrice;
     private int productAmount;
@@ -74,6 +74,8 @@ public class UnitPriceReverse {
      */
     private List<BigDecimal> unitTotalPriceList = new ArrayList<BigDecimal>();
 
+
+
     public static void main(String[] args) {
         UnitPriceReverse task = new UnitPriceReverse();
         task.execute();
@@ -82,8 +84,8 @@ public class UnitPriceReverse {
 
     public void execute() {
 
-//        this.readLinesFromFile();
-        this.executeNoForNestNew();
+        this.readLinesFromFile();
+//        this.executeNoForNestNew();
 
     }
 
@@ -136,64 +138,63 @@ public class UnitPriceReverse {
                 new BigDecimal("86.50")
         };
 
-        weightList = Arrays.asList(weights);
-
-//        BigDecimal[] defaultUnitPrices = new BigDecimal[]{
-//            new BigDecimal("186.2"),
-//            new BigDecimal("186.2"),
-//            new BigDecimal("264.6"),
-//            new BigDecimal("164.64"),
-//            new BigDecimal("127.4"),
-//            new BigDecimal("66.64"),
-//            new BigDecimal("88.2"),
-//            new BigDecimal("196"),
-//            new BigDecimal("88.2"),
-//            new BigDecimal("88.2"),
-//            new BigDecimal("35.28"),
-//            new BigDecimal("1225"),
-//            new BigDecimal("29.4"),
-//            new BigDecimal("63.7"),
-//            new BigDecimal("27.44"),
-//            new BigDecimal("112.7"),
-//            new BigDecimal("25.48"),
-//            new BigDecimal("4.9"),
-//            new BigDecimal("93.1"),
-//            new BigDecimal("31.36"),
-//            new BigDecimal("156.8"),
-//            new BigDecimal("56.84"),
-//            new BigDecimal("22.54"),
-//            new BigDecimal("352.8")
-//        };
-
         BigDecimal[] defaultUnitPrices = new BigDecimal[]{
-            new BigDecimal("190.51"),
-            new BigDecimal("190.51"),
-            new BigDecimal("268.91"),
-            new BigDecimal("168.95"),
-            new BigDecimal("131.71"),
-            new BigDecimal("70.95"),
-            new BigDecimal("92.51"),
-            new BigDecimal("200.31"),
-            new BigDecimal("92.51"),
-            new BigDecimal("92.51"),
-            new BigDecimal("39.59"),
-            new BigDecimal("1229.37"), //1229.31
-            new BigDecimal("33.71"),
-            new BigDecimal("68.01"),
-            new BigDecimal("31.75"),
-            new BigDecimal("117.01"),
-            new BigDecimal("29.68"), //29.79
-            new BigDecimal("9.21"),
-            new BigDecimal("97.41"),
-            new BigDecimal("35.67"),
-            new BigDecimal("161.11"),
-            new BigDecimal("61.15"),
-            new BigDecimal("26.85"),
-            new BigDecimal("357.11")
+            new BigDecimal("186.2"),
+            new BigDecimal("186.2"),
+            new BigDecimal("264.6"),
+            new BigDecimal("164.64"),
+            new BigDecimal("127.4"),
+            new BigDecimal("66.64"),
+            new BigDecimal("88.2"),
+            new BigDecimal("196"),
+            new BigDecimal("88.2"),
+            new BigDecimal("88.2"),
+            new BigDecimal("35.28"),
+            new BigDecimal("1225"),
+            new BigDecimal("29.4"),
+            new BigDecimal("63.7"),
+            new BigDecimal("27.44"),
+            new BigDecimal("112.7"),
+            new BigDecimal("25.48"),
+            new BigDecimal("4.9"),
+            new BigDecimal("93.1"),
+            new BigDecimal("31.36"),
+            new BigDecimal("156.8"),
+            new BigDecimal("56.84"),
+            new BigDecimal("22.54"),
+            new BigDecimal("352.8")
         };
 
+//        BigDecimal[] defaultUnitPrices = new BigDecimal[]{
+//            new BigDecimal("190.51"),
+//            new BigDecimal("190.51"),
+//            new BigDecimal("268.91"),
+//            new BigDecimal("168.95"),
+//            new BigDecimal("131.71"),
+//            new BigDecimal("70.95"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("200.31"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("39.59"),
+//            new BigDecimal("1229.37"), //1229.31
+//            new BigDecimal("33.71"),
+//            new BigDecimal("68.01"),
+//            new BigDecimal("31.75"),
+//            new BigDecimal("117.01"),
+//            new BigDecimal("29.68"), //29.79
+//            new BigDecimal("9.21"),
+//            new BigDecimal("97.41"),
+//            new BigDecimal("35.67"),
+//            new BigDecimal("161.11"),
+//            new BigDecimal("61.15"),
+//            new BigDecimal("26.85"),
+//            new BigDecimal("357.11")
+//        };
+
 //        进行升序排序并打印数组
-//        this.sortAndPrint(defaultUnitPrices, weights, false);
+//        this.sortAndPrint(defaultUnitPrices, weights, ASC,false);
+//        this.sortAndPrint(defaultUnitPrices, weights, DESC,false);
 //        System.exit(0);
 
         BigDecimal total = new BigDecimal("0");
@@ -201,8 +202,8 @@ public class UnitPriceReverse {
         BigDecimal multiSteps = new BigDecimal("0");
 
 //        this.printAddedUnitPrice(step, defaultUnitPrices);
-        this.printResult(null, defaultUnitPrices, weights);
-        System.exit(0);
+//        this.printResult(null, defaultUnitPrices, weights);
+//        System.exit(0);
 
 //        System.out.println("total before:");
 //        BigDecimal totalPrice = new BigDecimal("0");
@@ -228,11 +229,12 @@ public class UnitPriceReverse {
         BigDecimal minTotal = new BigDecimal("0");
         String msg = "";
 
+        BigDecimal minMultiSteps = null;
+
         boolean run = true;
         int index = 1;
 //        whileLoop:
         while(run) {
-//            System.out.print(".");
             multiSteps = this.add(multiSteps, step);
             for (int i = 0; i < defaultUnitPrices.length; i++) {
                 unitPrice = defaultUnitPrices[i];
@@ -244,6 +246,8 @@ public class UnitPriceReverse {
                     minAbs = this.subtract(total, totalPrice).abs();
                     minTotal = total;
                     msg = "total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", index:" + index + ", i:" + i;
+
+                    minMultiSteps = multiSteps;
 
                 } else if(total.compareTo(maxUnitPrice) > 0) {
                     System.out.println("已经超出最大值, 最大值为:[" + maxUnitPrice + "], total:[" + total + "]");
@@ -258,158 +262,14 @@ public class UnitPriceReverse {
         System.out.println("mintotal:" + minTotal);
         System.out.println(msg);
 
+        System.out.println("价格增加[" + minMultiSteps + "]后：");
+        this.printAddedUnitPrice(minMultiSteps, defaultUnitPrices);
+//        this.printAddedUnitPrice(minMultiSteps, defaultUnitPrices, weights);
+
         long endTime = System.currentTimeMillis();
         System.out.println("total cost:[" + (endTime - startTime) / 1000 + "s]");
 
 
-    }
-
-    public BigDecimal getTotalPriceAfterAddedUnitPrice(BigDecimal added, int index, BigDecimal[] defaultUnitPrice, BigDecimal[] weights) {
-        BigDecimal total = new BigDecimal("0");
-
-        BigDecimal unitPrice = null;
-        BigDecimal weight = null;
-
-        for(int i = 0; i < defaultUnitPrice.length; i ++) {
-            unitPrice = defaultUnitPrice[i];
-            weight = weights[i];
-            if(i <= index) {
-                unitPrice = this.add(unitPrice, added);
-            }
-            total = this.add(total, this.multiply(unitPrice, weight));
-
-        }
-
-        return total;
-    }
-
-    public Map<String, BigDecimal[]> getSortByWeight(BigDecimal[] unitPriceArr, BigDecimal[] weightArr) {
-        Map<String, BigDecimal[]> resMap = new HashMap<String, BigDecimal[]>();
-
-        BigDecimal weightTemp = null;
-        BigDecimal priceTemp = null;
-
-        for(int i = 0; i < weightArr.length - 1; i ++) {
-            for(int j = i + 1; j < weightArr.length; j ++) {
-                if(weightArr[j].compareTo(weightArr[i]) == -1) {
-//                    weightTemp = weightArr[j];
-//                    weightArr[j] = weightArr[i];
-//                    weightArr[i] = weightTemp;
-                    this.swap(weightArr, i, j);
-                    this.swap(unitPriceArr, i, j);
-                }
-            }
-        }
-        resMap.put("weightArr", weightArr);
-        resMap.put("priceArr", unitPriceArr);
-
-        return resMap;
-    }
-
-    public void swap(BigDecimal[] arr, int i, int j) {
-        BigDecimal temp = null;
-        temp = arr[j];
-        arr[j] = arr[i];
-        arr[i] = temp;
-    }
-
-    private List<BigDecimal> generateUnitPrice(int productAmount) {
-        List<BigDecimal> unitPriceList = new ArrayList<BigDecimal>();
-        for(int i = 0; i < productAmount; i ++) {
-            unitPriceList.add(new BigDecimal("0.01"));
-        }
-        return unitPriceList;
-    }
-
-    public int generateMaxLoop(BigDecimal totalPrice, int productAmount) {
-        int maxLoop = 0;
-        int scale = 2;
-        maxLoop = totalPrice.divide(new BigDecimal(productAmount), 2, BigDecimal.ROUND_HALF_UP).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-        return maxLoop;
-    }
-
-    public int generateBeginIndex(BigDecimal defaultPrice, BigDecimal priceStep) {
-        int beginIndex = 0;
-        beginIndex = defaultPrice.subtract(priceStep).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-        return beginIndex;
-    }
-
-    public int generateEndIndex(BigDecimal defaultPrice, BigDecimal priceStep) {
-        int beginIndex = 0;
-        beginIndex = defaultPrice.add(priceStep).multiply(priceIndexRadio).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
-        return beginIndex;
-    }
-
-    public BigDecimal devide(BigDecimal num01, BigDecimal num02) {
-        return num01.divide(num02, 2, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public BigDecimal multiply(BigDecimal num01, BigDecimal num02) {
-        return num01.multiply(num02).setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public BigDecimal add(BigDecimal num01, BigDecimal num02) {
-        return num01.add(num02).setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public BigDecimal subtract(BigDecimal num01, BigDecimal num02) {
-        return num01.subtract(num02).setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
-
-    public void print(BigDecimal[] arr) {
-        for(int i = 0; i < arr.length; i ++) {
-            if(i != 0) {
-                System.out.print(", ");
-            }
-            System.out.print(arr[i]);
-        }
-        System.out.println();
-    }
-
-    public void printResult(BigDecimal unitPriceStep, BigDecimal[] defaultUnitPrices, BigDecimal[] weights) {
-        BigDecimal total = new BigDecimal("0");
-        BigDecimal unitPrice = null;
-        BigDecimal itemTotal = null;
-        for(int i = 0; i < defaultUnitPrices.length; i ++) {
-            if(unitPriceStep != null) {
-                unitPrice = this.add(defaultUnitPrices[i], unitPriceStep);
-            } else {
-                unitPrice = defaultUnitPrices[i];
-            }
-            itemTotal = this.multiply(unitPrice, weights[i]);
-            System.out.println(unitPrice + " * " + weights[i] + " = " + itemTotal);
-            total = this.add(total, itemTotal);
-        }
-        System.out.println("合计:" + total);
-    }
-
-    public void printAddedUnitPrice(BigDecimal unitPriceStep, BigDecimal[] defaultUnitPrices) {
-        BigDecimal unitPrice = null;
-        for(int i = 0; i < defaultUnitPrices.length; i ++) {
-            unitPrice = this.add(defaultUnitPrices[i], unitPriceStep);
-            System.out.println(unitPrice);
-
-        }
-    }
-
-    public void sortAndPrint(BigDecimal[] defaultUnitPrices, BigDecimal[] weights, boolean print) {
-        if(print) {
-            System.out.println("before sorted:");
-            System.out.println("weight array:");
-            this.print(weights);
-            System.out.println("price array:");
-            this.print(defaultUnitPrices);
-        }
-        Map<String, BigDecimal[]> resMap = this.getSortByWeight(defaultUnitPrices, weights);
-        BigDecimal[] weightArr = resMap.get("weightArr");
-        BigDecimal[] priceArr = resMap.get("priceArr");
-        if(print) {
-            System.out.println("after sorted:");
-            System.out.println("weight array:");
-            this.print(weightArr);
-            System.out.println("price array:");
-            this.print(priceArr);
-        }
     }
 
     public void readLinesFromFile() {

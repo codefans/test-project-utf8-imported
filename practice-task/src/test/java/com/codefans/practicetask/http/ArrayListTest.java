@@ -15,6 +15,10 @@ public class ArrayListTest {
     @Test
     public void test() {
 
+        BigDecimal a = new BigDecimal("1.06");
+        BigDecimal b = new BigDecimal("626.27");
+        System.out.println(this.devide(a, b));
+
         List<Integer> itemlist = new ArrayList<Integer>();
         itemlist.add(new Integer(1));
         itemlist.add(new Integer(2));
@@ -96,8 +100,11 @@ public class ArrayListTest {
     }
 
     public BigDecimal devide(BigDecimal num01, BigDecimal num02) {
-        return num01.divide(num02, 4, BigDecimal.ROUND_HALF_UP);
-//        return num01.divide(num02);
+        return devide(num01, num02, 2);
+    }
+
+    public BigDecimal devide(BigDecimal num01, BigDecimal num02, int scale) {
+        return num01.divide(num02, scale, BigDecimal.ROUND_HALF_UP);
     }
 
     public void print(List<Integer> list) {

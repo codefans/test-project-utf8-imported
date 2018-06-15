@@ -1,0 +1,296 @@
+package com.codefans.practicetask.math;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * @author: caishengzhi
+ * @date: 2018-06-12 11:27
+ *
+ *  1.首先均匀的为单价加上0.01，然后找出绝对值最小的值，并记录此时单价的增加值=n*0.01， 例如：n=431，则增加值为4.31.
+    2.然后将数组中的每个单价都加上4.31
+    3.对重量进行降序排序，单价数组也相应的调整顺序，以保证两个数组相同下标下的单价和重量是对应的
+    4.对单价数组最后四个数据进行穷举遍历(步长为:0.2,，上下0.2，乘以100，就是41个元素)，其他数组元素就按照步骤2中得出的新单价，且不参与穷举
+    是否参与穷举，有个布尔型的列表来表示。true参加全排列，false不参与全排列
+
+ *
+ */
+public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
+
+    BigDecimal totalPrice;
+    BigDecimal[] weights;
+    BigDecimal[] defaultUnitPrices;
+
+    BigDecimal downPriceStep = new BigDecimal("0.2");
+    BigDecimal upPriceStep = new BigDecimal("0.2");
+    List<Integer> beginIndexList;
+    List<Integer> endIndexList;
+
+    BigDecimal minUnitPriceStep;
+
+    public static void main(String[] args) {
+        ProductPriceReverseMultiThread reverseMultiThread = new ProductPriceReverseMultiThread();
+        reverseMultiThread.startup();
+    }
+
+    public void startup() {
+
+        this.init();
+
+        this.cleanup();
+
+        this.multiTask();
+
+    }
+
+    public void init() {
+        totalPrice = new BigDecimal("88800.00");
+
+        //运费：2700
+        System.out.println("totalPrice:" + totalPrice);
+
+        weights = new BigDecimal[]{
+                new BigDecimal("46.10"),
+                new BigDecimal("49.80"),
+                new BigDecimal("27.72"),
+                new BigDecimal("15.30"),
+                new BigDecimal("18.00"),
+                new BigDecimal("30.60"),
+                new BigDecimal("36.30"),
+                new BigDecimal("15"),
+                new BigDecimal("40.3"),
+                new BigDecimal("29.40"),
+                new BigDecimal("33"),
+                new BigDecimal("1.00"),
+                new BigDecimal("72"),
+                new BigDecimal("30.00"),
+                new BigDecimal("20"),
+                new BigDecimal("14.5"),
+                new BigDecimal("10"),
+                new BigDecimal("10"),
+                new BigDecimal("11"),
+                new BigDecimal("10"),
+                new BigDecimal("3.45"),
+                new BigDecimal("3"),
+                new BigDecimal("13.3"),
+                new BigDecimal("86.50")
+        };
+
+        defaultUnitPrices = new BigDecimal[]{
+                new BigDecimal("186.2"),
+                new BigDecimal("186.2"),
+                new BigDecimal("264.6"),
+                new BigDecimal("164.64"),
+                new BigDecimal("127.4"),
+                new BigDecimal("66.64"),
+                new BigDecimal("88.2"),
+                new BigDecimal("196"),
+                new BigDecimal("88.2"),
+                new BigDecimal("88.2"),
+                new BigDecimal("35.28"),
+                new BigDecimal("1225"),
+                new BigDecimal("29.4"),
+                new BigDecimal("63.7"),
+                new BigDecimal("27.44"),
+                new BigDecimal("112.7"),
+                new BigDecimal("25.48"),
+                new BigDecimal("4.9"),
+                new BigDecimal("93.1"),
+                new BigDecimal("31.36"),
+                new BigDecimal("156.8"),
+                new BigDecimal("56.84"),
+                new BigDecimal("22.54"),
+                new BigDecimal("352.8")
+        };
+
+//        BigDecimal[] defaultUnitPrices = new BigDecimal[]{
+//            new BigDecimal("190.51"),
+//            new BigDecimal("190.51"),
+//            new BigDecimal("268.91"),
+//            new BigDecimal("168.95"),
+//            new BigDecimal("131.71"),
+//            new BigDecimal("70.95"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("200.31"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("92.51"),
+//            new BigDecimal("39.59"),
+//            new BigDecimal("1229.37"), //1229.31
+//            new BigDecimal("33.71"),
+//            new BigDecimal("68.01"),
+//            new BigDecimal("31.75"),
+//            new BigDecimal("117.01"),
+//            new BigDecimal("29.68"), //29.79
+//            new BigDecimal("9.21"),
+//            new BigDecimal("97.41"),
+//            new BigDecimal("35.67"),
+//            new BigDecimal("161.11"),
+//            new BigDecimal("61.15"),
+//            new BigDecimal("26.85"),
+//            new BigDecimal("357.11")
+//        };
+
+
+
+    }
+
+    public void multiTask() {
+
+        //将defaultUnitPrices和weights进行降序排序
+        super.sortAndPrint(defaultUnitPrices, weights, DESC, false);
+        this.printResult(null, defaultUnitPrices, weights);
+
+        List<Boolean> toSortList = this.getIfSortList("last", 4);
+
+        int coreSize = Runtime.getRuntime().availableProcessors();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(coreSize, new NamedThreadFactory());
+        ReverseTask task = new ReverseTask(totalPrice, Arrays.asList(defaultUnitPrices), Arrays.asList(weights));
+        task.setDownPriceStep(downPriceStep);
+        task.setUpPriceStep(upPriceStep);
+        task.setIfSortList(toSortList);
+
+//        executorService.execute(task);
+        executorService.submit(task);
+
+
+    }
+
+    public void cleanup() {
+
+        long startTime = System.currentTimeMillis();
+
+//        进行升序排序并打印数组
+//        this.sortAndPrint(defaultUnitPrices, weights, ASC,false);
+//        this.sortAndPrint(defaultUnitPrices, weights, DESC,false);
+//        System.exit(0);
+
+        BigDecimal total = new BigDecimal("0");
+        BigDecimal step = new BigDecimal("4.31");
+        BigDecimal multiSteps = new BigDecimal("0");
+
+//        this.printAddedUnitPrice(step, defaultUnitPrices);
+//        this.printResult(null, defaultUnitPrices, weights);
+//        System.exit(0);
+
+//        System.out.println("total before:");
+//        BigDecimal totalPrice = new BigDecimal("0");
+//        for(int i = 0; i < defaultUnitPrices.length; i ++) {
+//            totalPrice = this.add(totalPrice, this.multiply(defaultUnitPrices[i], weights[i]));
+//        }
+//        System.out.println(totalPrice);
+//
+//        System.out.println("total after:");
+//        totalPrice = new BigDecimal("0");
+//        for(int i = 0; i < defaultUnitPrices.length; i ++) {
+//            totalPrice = this.add(totalPrice, this.multiply(this.add(defaultUnitPrices[i], step), weights[i]));
+//        }
+//        System.out.println(totalPrice);
+//        System.exit(0);
+
+        BigDecimal maxUnitPrice = this.add(this.add(totalPrice, new BigDecimal("2700")), new BigDecimal("626.27"));
+        BigDecimal unitPrice = null;
+        BigDecimal weight = null;
+        BigDecimal addedWeight = null;
+        step = new BigDecimal("0.01");
+        BigDecimal minAbs = totalPrice;
+        BigDecimal minTotal = new BigDecimal("0");
+        String msg = "";
+
+        BigDecimal minMultiSteps = null;
+
+        boolean run = true;
+        int loopTimes = 1;
+//        whileLoop:
+        while(run) {
+            multiSteps = this.add(multiSteps, step);
+            for (int i = 0; i < defaultUnitPrices.length; i++) {
+                unitPrice = defaultUnitPrices[i];
+                weight = weights[i];
+                total = this.add(total, this.multiply(weight, this.add(unitPrice, multiSteps)));
+//                if (total.compareTo(totalPrice) > 0 && total.compareTo(maxUnitPrice) < 0) {
+                if (this.subtract(total, totalPrice).abs().compareTo(minAbs) <= 0) {
+//                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", index:" + index + ", i:" + i);
+                    minAbs = this.subtract(total, totalPrice).abs();
+                    minTotal = total;
+                    msg = "total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i;
+
+                    minMultiSteps = multiSteps;
+
+                } else if(total.compareTo(maxUnitPrice) > 0) {
+                    System.out.println("已经超出最大值, 最大值为:[" + maxUnitPrice + "], total:[" + total + "]");
+                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i);
+                    run = false;
+                }
+            }
+            total = new BigDecimal("0");
+            loopTimes++;
+        }
+
+        System.out.println("mintotal:" + minTotal);
+        System.out.println(msg);
+
+        System.out.println("multiSteps:" + multiSteps);
+        System.out.println("价格增加[" + minMultiSteps + "]后：");
+
+//        this.printAddedUnitPrice(minMultiSteps, defaultUnitPrices);
+//        super.printAddedUnitPrice(minMultiSteps, defaultUnitPrices, weights);
+//        super.printResult(minMultiSteps, defaultUnitPrices, weights);
+        defaultUnitPrices = super.getNewUnitPrices(minMultiSteps, defaultUnitPrices);
+        minUnitPriceStep = minMultiSteps;
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("total cost:[" + (endTime - startTime) / 1000 + "s]");
+
+
+
+    }
+
+    public List<Boolean> getIfSortList(String direction, int count) {
+        List<Boolean> ifSortList = new ArrayList<Boolean>(weights.length);
+        if(direction.equals("first")) {
+            for(int i = 0; i < weights.length; i ++) {
+                if(count > 0) {
+                    ifSortList.add(new Boolean(true));
+                    --count;
+                } else {
+                    ifSortList.add(new Boolean(false));
+                }
+            }
+        } else if(direction.equals("last")) {
+            for(int i = weights.length - 1; i >= 0; i --) {
+                if(count > 0) {
+                    ifSortList.add(new Boolean(true));
+                    --count;
+                } else {
+                    ifSortList.add(0, new Boolean(false));
+                }
+            }
+        } else {
+            for(int i = 0; i < weights.length; i ++) {
+                ifSortList.add(new Boolean(true));
+            }
+        }
+        return ifSortList;
+    }
+
+
+    class NamedThreadFactory implements ThreadFactory {
+
+        private String threadNamePrefix = "ProductPriceReverseThread_";
+
+        AtomicInteger threadIndex = new AtomicInteger(0);
+
+        @Override
+        public Thread newThread(Runnable r) {
+            return new Thread(r, threadNamePrefix + threadIndex.getAndIncrement());
+        }
+    }
+
+}
