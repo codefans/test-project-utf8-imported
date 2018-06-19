@@ -34,7 +34,7 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
     /**
      * 在默认单价基础上向上或向下浮动的步长
      */
-    private BigDecimal defaultUnitPriceStep = new BigDecimal("1");
+    private BigDecimal defaultUnitPriceStep = new BigDecimal("5");
 
     /**
      * 价格与下标转换的系数，由于价格是保留两位小数，所以乘以100后，就是整数，就可以作为数组下标进行遍历
@@ -127,6 +127,14 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
         int index = 1;
         int commonSize = unitPriceList.size();
 
+        int weightLen = weightList.size();
+        int priceLen = defaultUnitPriceList.size();
+        if(commonSize == weightLen && commonSize == priceLen) {
+            System.out.println("commonSize:" + commonSize + ", weightLen:" + weightLen + ", priceLen:" + priceLen);
+        } else {
+            throw new RuntimeException("commonSize、weightLen和priceLen三者长度不一致!");
+        }
+
         //查找第一个和最后一个参与排序的下标
         //第一个就是下标从0开始,往后遍历第一个遇到true的下标就是起始下标
         //最后一个为true的，就是最后的下标
@@ -165,6 +173,7 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
         BigDecimal minAbs = totalPrice;
         String lastMsg = "";
         int successCount = 0;
+        boolean breakFor = false;
 
         while(process) {
 
@@ -197,7 +206,8 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
                         int lastIndex = currentIndexList.get(previousIndex);
                         currentIndexList.set(previousIndex, lastIndex + 1);
                         currentIndexList.set(i, 0);
-                        break;
+                        breakFor = true;
+//                        break;
                     }
                 } else {
                     currentLen = lengthList.get(i);
@@ -235,11 +245,16 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
 //                total = total.add(singleTotalPrice);
                 total = this.add(total, singleTotalPrice);
 
+                //必须在判断i==lastSortIndex之前
+                if(breakFor) {
+                    breakFor = false;
+                    break;
+                }
+
                 //从最后一行的下标开始加
                 if(i == lastSortIndex) {
                     currentIndexList.set(i, currentIndex + 1);
                 }
-
 
             }
 
@@ -247,13 +262,16 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
             if(subAbs.compareTo(new BigDecimal(0)) == 0) {
 //                System.out.println("subAbs:" + subAbs);
                 successCount++;
+                if(commonSize != singlePriceList.size()) {
+                    System.out.println("第[" + successCount + "]组数据个数和原数据个数不符!");
+                }
             }
 
             if(subAbs.compareTo(minAbs) <= 0) {
                 minAbs = subAbs;
 
                 StringBuilder sb = new StringBuilder();
-                sb.append("================result:[" + (successCount) + "]=================").append("\n");
+                sb.append("================result:[" + (successCount) + "], priceList.size():[" + singlePriceList.size() + "]=================").append("\n");
                 for(int j = 0; j < singlePriceList.size(); j ++) {
                     singlePrice = singlePriceList.get(j);
                     weight = weightList.get(j);
@@ -271,9 +289,9 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
                 }
                 lastMsg = sb.toString();
 
-//                if(subAbs.compareTo(new BigDecimal(0)) == 0) {
-//                    System.out.println(lastMsg);
-//                }
+                if(subAbs.compareTo(new BigDecimal(0)) == 0) {
+                    System.out.println(lastMsg);
+                }
 
                 index++;
             }
