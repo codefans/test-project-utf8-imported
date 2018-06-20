@@ -184,6 +184,28 @@ public class BigDecimalTest extends AbstractUnitPriceReverse {
         System.out.println("total:" + total);
 
 
+        BigDecimal[] weightArr = new BigDecimal[]{
+            new BigDecimal("146.1"),
+            new BigDecimal("129.2"),
+            new BigDecimal("113.4"),
+            new BigDecimal("81.8"),
+            new BigDecimal("65"),
+            new BigDecimal("58"),
+            new BigDecimal("50.1"),
+            new BigDecimal("50"),
+            new BigDecimal("49.9"),
+            new BigDecimal("35.4"),
+            new BigDecimal("3.6")
+        };
+
+        BigDecimal weightSum = new BigDecimal(0);
+        for(int i = 0; i < weightArr.length; i ++) {
+            weightSum = add(weightSum, this.multiply(weightArr[i], new BigDecimal(0.01)));
+
+        }
+
+        System.out.println("weightSum:" + weightSum);
+
     }
 
 

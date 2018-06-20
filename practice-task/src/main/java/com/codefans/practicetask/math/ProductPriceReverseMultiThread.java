@@ -27,8 +27,8 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
     BigDecimal[] weights;
     BigDecimal[] defaultUnitPrices;
 
-    BigDecimal downPriceStep = new BigDecimal("1");
-    BigDecimal upPriceStep = new BigDecimal("1");
+    BigDecimal downPriceStep = new BigDecimal("0.1");
+    BigDecimal upPriceStep = new BigDecimal("0.1");
     List<Integer> beginIndexList;
     List<Integer> endIndexList;
 
@@ -51,7 +51,8 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 
     public void init() {
 //        totalPrice = new BigDecimal("88800.00");
-        totalPrice = new BigDecimal("76200.84");
+//        totalPrice = new BigDecimal("76200.84");
+        totalPrice = new BigDecimal("5150804.08");
 
         //运费：2700
         System.out.println("totalPrice:" + totalPrice);
@@ -83,20 +84,30 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 //                new BigDecimal("86.50")
 //        };
 
+        //No.2
+//        weights = new BigDecimal[]{
+//            new BigDecimal("50"),
+//            new BigDecimal("81.8"),
+//            new BigDecimal("35.4"),
+//            new BigDecimal("49.9"),
+//            new BigDecimal("65"),
+//            new BigDecimal("50.1"),
+//            new BigDecimal("146.1"),
+//            new BigDecimal("129.2"),
+//            new BigDecimal("113.4"),
+//            new BigDecimal("58"),
+//            new BigDecimal("3.6")
+//        };
+
+        //No.3
         weights = new BigDecimal[]{
-            new BigDecimal("50"),
-            new BigDecimal("81.8"),
-            new BigDecimal("35.4"),
-            new BigDecimal("49.9"),
-            new BigDecimal("65"),
-            new BigDecimal("50.1"),
-            new BigDecimal("146.1"),
-            new BigDecimal("129.2"),
-            new BigDecimal("113.4"),
-            new BigDecimal("58"),
-            new BigDecimal("3.6")
+                new BigDecimal("49000"),
+                new BigDecimal("40000"),
+                new BigDecimal("46000"),
+                new BigDecimal("18000")
         };
 
+        //No.1
 //        defaultUnitPrices = new BigDecimal[]{
 //                new BigDecimal("186.2"),
 //                new BigDecimal("186.2"),
@@ -124,18 +135,27 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 //                new BigDecimal("352.8")
 //        };
 
+        //No.2
+//        defaultUnitPrices = new BigDecimal[] {
+//            new BigDecimal("58"),
+//            new BigDecimal("290"),
+//            new BigDecimal("130"),
+//            new BigDecimal("68"),
+//            new BigDecimal("36"),
+//            new BigDecimal("190"),
+//            new BigDecimal("48"),
+//            new BigDecimal("75"),
+//            new BigDecimal("68"),
+//            new BigDecimal("46"),
+//            new BigDecimal("250")
+//        };
+
+        //No.3
         defaultUnitPrices = new BigDecimal[] {
-            new BigDecimal("58"),
-            new BigDecimal("290"),
-            new BigDecimal("130"),
-            new BigDecimal("68"),
-            new BigDecimal("36"),
-            new BigDecimal("190"),
-            new BigDecimal("48"),
-            new BigDecimal("75"),
-            new BigDecimal("68"),
-            new BigDecimal("46"),
-            new BigDecimal("250")
+                new BigDecimal("31"),
+                new BigDecimal("31"),
+                new BigDecimal("35"),
+                new BigDecimal("35")
         };
 
 //        BigDecimal[] defaultUnitPrices = new BigDecimal[]{
@@ -176,6 +196,7 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
         this.printResult(null, defaultUnitPrices, weights);
 
         List<Boolean> toSortList = this.getIfSortList("last", 4);
+//        List<Boolean> toSortList = this.getIfSortRandomList();
 
         int coreSize = Runtime.getRuntime().availableProcessors();
 
@@ -223,7 +244,11 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 //        System.out.println(totalPrice);
 //        System.exit(0);
 
-        BigDecimal maxUnitPrice = this.add(this.add(totalPrice, new BigDecimal("2700")), new BigDecimal("626.27"));
+        BigDecimal minWeightSum = this.getMinWeightSum();
+        BigDecimal maxUnitPrice = this.add(totalPrice, minWeightSum);
+        System.out.println("最小总量和minWeightSum=" + minWeightSum);
+        System.out.println("最大总价maxUnitPrice=" + maxUnitPrice);
+
         BigDecimal unitPrice = null;
         BigDecimal weight = null;
         BigDecimal addedWeight = null;
@@ -242,30 +267,35 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
             for (int i = 0; i < defaultUnitPrices.length; i++) {
                 unitPrice = defaultUnitPrices[i];
                 weight = weights[i];
-                total = this.add(total, this.multiply(weight, this.add(unitPrice, multiSteps)));
-//                if (total.compareTo(totalPrice) > 0 && total.compareTo(maxUnitPrice) < 0) {
-                if (this.subtract(total, totalPrice).abs().compareTo(minAbs) <= 0) {
-//                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", index:" + index + ", i:" + i);
-                    minAbs = this.subtract(total, totalPrice).abs();
-                    minTotal = total;
-                    msg = "total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i;
-
-                    minMultiSteps = multiSteps;
-
-                } else if(total.compareTo(maxUnitPrice) > 0) {
-                    System.out.println("已经超出最大值, 最大值为:[" + maxUnitPrice + "], total:[" + total + "]");
-                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i);
-                    run = false;
-                }
+                total = this.add(total, this.multiply(weight, this.add(unitPrice, multiSteps, 4), 4), 4);
             }
+
+            //                if (total.compareTo(totalPrice) > 0 && total.compareTo(maxUnitPrice) < 0) {
+            if (this.subtract(total, totalPrice).abs().compareTo(minAbs) <= 0) {
+//                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", index:" + index + ", i:" + i);
+                minAbs = this.subtract(total, totalPrice).abs();
+                minTotal = total;
+//                msg = "total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i;
+                msg = "total: " + total + ", multiSteps:" + multiSteps;
+
+                minMultiSteps = multiSteps;
+
+            } else if(total.compareTo(maxUnitPrice) > 0) {
+                System.out.println("已经超出最大值, 最大值为:[" + maxUnitPrice + "], 当前total:[" + total + "]" + ", multiSteps:" + multiSteps);
+//                System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i);
+                run = false;
+            }
+
             total = new BigDecimal("0");
             loopTimes++;
         }
 
-        System.out.println("mintotal:" + minTotal);
-        System.out.println(msg);
+        System.out.println("minMultiSteps:" + minMultiSteps);
+        System.out.println("minAbs:" + minAbs);
+        System.out.println("minTotal:" + minTotal);
+        System.out.println("this.subtract(" + minTotal + ", " + totalPrice + ").abs():" + this.subtract(minTotal, totalPrice).abs());
+//        System.out.println(msg);
 
-        System.out.println("multiSteps:" + multiSteps);
         System.out.println("价格增加[" + minMultiSteps + "]后：");
 
 //        this.printAddedUnitPrice(minMultiSteps, defaultUnitPrices);
@@ -309,6 +339,29 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
         return ifSortList;
     }
 
+    public List<Boolean> getIfSortRandomList() {
+        List<Boolean> ifSortList = new ArrayList<Boolean>(weights.length);
+        ifSortList.add(new Boolean(true));
+        ifSortList.add(new Boolean(true));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(false));
+        ifSortList.add(new Boolean(true));
+        ifSortList.add(new Boolean(true));
+        return ifSortList;
+    }
+
+    public BigDecimal getMinWeightSum() {
+        BigDecimal weightSum = new BigDecimal(0);
+        for(int i = 0; i < weights.length; i ++) {
+            weightSum = add(weightSum, this.multiply(weights[i], new BigDecimal(0.01)));
+        }
+        return weightSum;
+    }
 
     class NamedThreadFactory implements ThreadFactory {
 
