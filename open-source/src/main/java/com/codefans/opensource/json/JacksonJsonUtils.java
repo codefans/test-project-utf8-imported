@@ -20,6 +20,14 @@ import java.util.Map;
  * @author: codefans
  * @date: 2018-05-23 09:07
  * jackson json utils
+ *
+ * Jackson两大分支codehaus、fasterxml的区别
+ * 他们是Jackson的两大分支、也是两个版本的不同包名。
+ * (1)1.x版本的包名是codehaus; Jackson从2.0开始改用新的包名fasterxml；
+ * (2)除了包名不同，他们的Maven artifact id也不同。
+ * (3)1.x版本现在只提供bug-fix，而2.x版本还在不断开发和发布中。
+ * 如果是新项目，建议直接用2x，即fasterxml jackson。
+
  */
 public class JacksonJsonUtils {
 
