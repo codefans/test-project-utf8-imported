@@ -1,6 +1,7 @@
 package com.codefans.reusablecode.util;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * @Author: ShengzhiCai
@@ -19,6 +20,19 @@ public class IOUtils {
 
     public void append(String path) throws IOException {
         fw.append(path).append("/r/n");
+    }
+
+    public void append(List<String> strs) {
+        if (strs == null || strs.size() == 0) {
+            System.out.println("strs is empty.");
+        }
+        try {
+            for (int i = 0; i < strs.size(); i++) {
+                fw.append(strs.get(i) + "\r\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() throws IOException {
