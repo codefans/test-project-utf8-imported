@@ -57,6 +57,12 @@ public class ProjectPomBuilder extends BasicPomBuilder implements PropertyKeyCon
 
     public void setupProperties() {
 
+        String key = "maven.deploy.skip";
+        String propKey = "project.maven.deploy.skip";
+        this.propertiesBegin().newline();
+            this.begin(key).text(this.get(propKey)).end(key);
+        this.propertiesEnd().newline();
+
     }
 
     public void setupDependencyManagement() {
@@ -65,7 +71,8 @@ public class ProjectPomBuilder extends BasicPomBuilder implements PropertyKeyCon
 
     public void setupBuild() {
         this.buildBegin().newline();
-            this.finalNameBegin().text(this.get(PROJECT_ARTIFACTID)).finalNameEnd().newline();
+//            this.finalNameBegin().text(this.get(PROJECT_ARTIFACTID)).finalNameEnd().newline();
+            this.finalNameBegin().text("${project.artifactId}").finalNameEnd().newline();
             this.setupPlugins();
             this.setupResources();
         this.buildEnd().newline();
@@ -81,19 +88,51 @@ public class ProjectPomBuilder extends BasicPomBuilder implements PropertyKeyCon
             String pluginId = "";
             for(int i = 0; i < pluginIdArr.length; i ++) {
                 pluginId = pluginIdArr[i];
-                this.pluginBegin().newline();
-                    this.groupIdBegin().text(this.get("project." + pluginId + ".groupId")).groupIdEnd().newline();
-                    this.artifactIdBegin().text(pluginId).artifactIdEnd().newline();
-                    this.versionBegin().text(this.get("project." + pluginId + ".version")).versionEnd().newline();
-                    this.configurationBegin();
-                        this.sourceBegin().text(this.get("project." + pluginId + ".config.source")).sourceEnd().newline();
-                        this.encodingBegin().text(this.get("project." + pluginId + ".config.encoding")).encodingEnd().newline();
-                        this.targetBegin().text(this.get("project." + pluginId + ".config.target")).targetEnd().newline();
-                    this.configurationEnd().newline();
-                this.pluginEnd().newline();
+
+                //maven-compiler-plugin
+                if(MAVEN_COMPILER_PLUGIN.equalsIgnoreCase(pluginId)) {
+                    this.setupMavenCompilerPlugin(pluginId);
+                }
+
+                //maven-source-plugin
+                if(MAVEN_SOURCE_PLUGIN.equalsIgnoreCase(pluginId)) {
+                    this.setupMavenSourcePlugin(pluginId);
+                }
+
             }
             this.pluginsEnd().newline();
         }
+    }
+
+    public void setupMavenCompilerPlugin(String pluginId) {
+        this.pluginBegin().newline();
+            this.groupIdBegin().text(this.get("project." + pluginId + ".groupId")).groupIdEnd().newline();
+            this.artifactIdBegin().text(pluginId).artifactIdEnd().newline();
+            this.versionBegin().text(this.get("project." + pluginId + ".version")).versionEnd().newline();
+            this.configurationBegin();
+                this.sourceBegin().text(this.get("project." + pluginId + ".config.source")).sourceEnd().newline();
+                this.encodingBegin().text(this.get("project." + pluginId + ".config.encoding")).encodingEnd().newline();
+                this.targetBegin().text(this.get("project." + pluginId + ".config.target")).targetEnd().newline();
+            this.configurationEnd().newline();
+        this.pluginEnd().newline();
+    }
+
+    public void setupMavenSourcePlugin(String pluginId) {
+        this.pluginBegin().newline();
+            this.artifactIdBegin().text(this.get("project." + pluginId + ".artifactId")).artifactIdEnd().newline();
+            this.versionBegin().text(this.get("project." + pluginId + ".version")).versionEnd().newline();
+            this.configurationBegin().newline();
+                this.attachBegin().text(this.get("project." + pluginId + ".attach")).attachEnd().newline();
+            this.configurationEnd().newline();
+            this.executionsBegin().newline();
+                this.executionBegin().newline();
+                    this.phaseBegin().text(this.get("project." + pluginId + ".execution.phase")).phaseEnd().newline();
+                    this.goalsBegin().newline();
+                        this.goalBegin().text(this.get("project." + pluginId + ".execution.goal")).goalEnd().newline();
+                    this.goalsEnd().newline();
+                this.executionEnd().newline();
+            this.executionsEnd().newline();
+        this.pluginEnd();
     }
 
     public void setupResources() {

@@ -364,8 +364,66 @@ public class BasicPomBuilder {
         return this;
     }
 
+    public BasicPomBuilder executionsBegin() {
+        pomStr.append("<executions>");
+        return this;
+    }
+
+    public BasicPomBuilder executionsEnd() {
+        pomStr.append("</executions>");
+        return this;
+    }
+
+    public BasicPomBuilder executionBegin() {
+        pomStr.append("<execution>");
+        return this;
+    }
+
+    public BasicPomBuilder executionEnd() {
+        pomStr.append("</execution>");
+        return this;
+    }
+
+    public BasicPomBuilder attachBegin() {
+        pomStr.append("<attach>");
+        return this;
+    }
+
+    public BasicPomBuilder attachEnd() {
+        pomStr.append("</attach>");
+        return this;
+    }
+
+    public BasicPomBuilder phaseBegin() {
+        pomStr.append("<phase>");
+        return this;
+    }
+
+    public BasicPomBuilder phaseEnd() {
+        pomStr.append("</phase>");
+        return this;
+    }
 
 
+    public BasicPomBuilder goalsBegin() {
+        pomStr.append("<goals>");
+        return this;
+    }
+
+    public BasicPomBuilder goalsEnd() {
+        pomStr.append("</goals>");
+        return this;
+    }
+
+    public BasicPomBuilder goalBegin() {
+        pomStr.append("<goal>");
+        return this;
+    }
+
+    public BasicPomBuilder goalEnd() {
+        pomStr.append("</goal>");
+        return this;
+    }
 
 
     public BasicPomBuilder projectEnd() {

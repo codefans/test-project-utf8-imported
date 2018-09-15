@@ -18,6 +18,9 @@ public interface PropertyKeyConstants {
     public static final String PROJECT_RESOURCES_IDS = "project.resources.ids";
     public static final String PROJECT_PROFILES_IDS = "project.profiles.ids";
 
+    public static final String MAVEN_COMPILER_PLUGIN = "maven-compiler-plugin";
+    public static final String MAVEN_SOURCE_PLUGIN = "maven-source-plugin";
+
     public static final String LINE_SEPERATOR = "\r\n";
     public static final String PROPERTY_SEPERATOR = ";";
 
