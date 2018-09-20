@@ -277,6 +277,7 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
                     weight = weightList.get(j);
                     singleTotalPrice = singleTotalPriceList.get(j);
                     sb.append(singlePrice + " * " + weight + " = " + singleTotalPrice).append("\n");
+//                    sb.append(weight + "," + singlePrice + "," + singleTotalPrice).append("\n");
                 }
 
                 for(int k = 0; k < singleTotalPriceList.size(); k ++) {

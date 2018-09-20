@@ -1,5 +1,6 @@
 package com.codefans.practicetask.math;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -78,12 +79,19 @@ public class MathExcelReader {
                     ArrayList<String> curarr=new ArrayList<String>();
                     String cellTypeName = "";
                     String cellValue = "";
+                    CellType cellType = null;
 
                     for(int columnNum = 0 ; columnNum<columnCount ; columnNum++){
                         XSSFCell cell = xssfRow.getCell(columnNum);
                         //                        System.out.println(cell);
 
-                        cellTypeName = cell.getCellTypeEnum().name();
+                        if(cell != null) {
+                            cellType = cell.getCellTypeEnum();
+                            if (cellType != null) {
+                                cellTypeName = cellType.name();
+                            }
+                        }
+
                         //                        System.out.println(cellTypeName);
                         if("STRING".equalsIgnoreCase(cellTypeName)) {
 
