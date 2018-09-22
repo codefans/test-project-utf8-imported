@@ -1,14 +1,11 @@
 package com.codefans.practicetask.math;
 
 import com.codefans.reusablecode.common.CommonUtils;
-import org.apache.commons.collections.CollectionUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,12 +26,16 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
     BigDecimal[] weights;
     BigDecimal[] defaultUnitPrices;
 
-    BigDecimal downPriceStep = new BigDecimal("0.5");
-    BigDecimal upPriceStep = new BigDecimal("0.5");
+    BigDecimal downPriceStep = new BigDecimal("0.2");
+    BigDecimal upPriceStep = new BigDecimal("0.2");
     List<Integer> beginIndexList;
     List<Integer> endIndexList;
 
     BigDecimal minUnitPriceStep;
+
+    Result result;
+    List<String> weightList;
+    MathExcelTool mathExcelTool;
 
     public static void main(String[] args) {
         ProductPriceReverseMultiThread reverseMultiThread = new ProductPriceReverseMultiThread();
@@ -323,16 +324,18 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
         System.out.println(rootDir);
         System.out.println(filePath);
 
-        MathExcelReader mathExcelReader = new MathExcelReader(filePath);
-        mathExcelReader.xssfRead();
-        mathExcelReader.print();
+        mathExcelTool = new MathExcelTool(filePath);
+        mathExcelTool.xssfRead();
+        mathExcelTool.print();
 
-        List<String> weightList = mathExcelReader.getWeightList();
-        List<String> priceList = mathExcelReader.getPriceList();
+        weightList = mathExcelTool.getWeightList();
+        List<String> priceList = mathExcelTool.getPriceList();
 
         weights = this.getBigDecimalArray(weightList);
         defaultUnitPrices = this.getBigDecimalArray(priceList);
-        totalPrice = new BigDecimal(mathExcelReader.getTotalPrice());
+        totalPrice = new BigDecimal(mathExcelTool.getTotalPrice());
+
+
 
     }
 
@@ -345,9 +348,7 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 //        this.sortAndPrint(defaultUnitPrices, weights, DESC,false);
 //        System.exit(0);
 
-        BigDecimal total = new BigDecimal("0");
-        BigDecimal step = new BigDecimal("3.39");
-        BigDecimal multiSteps = new BigDecimal("0");
+
 
 //        this.printAddedUnitPrice(step, defaultUnitPrices);
 //        this.printResult(null, defaultUnitPrices, weights);
@@ -368,24 +369,30 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
 //        System.out.println(totalPrice);
 //        System.exit(0);
 
-        BigDecimal minWeightSum = this.getMinWeightSum();
-        BigDecimal maxUnitPrice = this.add(totalPrice, minWeightSum);
-        System.out.println("最小总量和minWeightSum=" + minWeightSum);
+//        BigDecimal minWeightSum = this.getMinWeightSum();
+//        BigDecimal maxUnitPrice = this.add(totalPrice, minWeightSum);
+        BigDecimal maxUnitPrice = totalPrice;
+//        System.out.println("最小总量和minWeightSum=" + minWeightSum);
         System.out.println("最大总价maxUnitPrice=" + maxUnitPrice);
+
+        BigDecimal total = new BigDecimal("0");
+        BigDecimal step = new BigDecimal("0.01");
+        BigDecimal multiSteps = new BigDecimal("0");
 
         BigDecimal unitPrice = null;
         BigDecimal weight = null;
-        BigDecimal addedWeight = null;
-        step = new BigDecimal("0.01");
+
         BigDecimal minAbs = totalPrice;
         BigDecimal minTotal = new BigDecimal("0");
-        String msg = "";
 
         BigDecimal minMultiSteps = null;
 
         boolean run = true;
         int loopTimes = 1;
-//        whileLoop:
+//      //1.所有单价增加0.01, 然后增加后的单价乘以重量, 得出的总价与最大总价求绝对值
+        //2.当总价小于等于最大总价, 继续将所有单价增加0.01+0.01, 得出的总价与最大总价求绝对值, 并与上一个绝对值比较, 取最小绝对值和最小步长
+        //3.如果总价一直小于等于最大总价, 一直重复步骤1、2
+        //4.当总价大于最大总价时, 上一个累计步长就是最小步长, 循环结束.
         while(run) {
             multiSteps = this.add(multiSteps, step);
             for (int i = 0; i < defaultUnitPrices.length; i++) {
@@ -394,13 +401,10 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
                 total = this.add(total, this.multiply(weight, this.add(unitPrice, multiSteps, 4), 4), 4);
             }
 
-            //                if (total.compareTo(totalPrice) > 0 && total.compareTo(maxUnitPrice) < 0) {
             if (this.subtract(total, totalPrice).abs().compareTo(minAbs) <= 0) {
 //                    System.out.println("total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", index:" + index + ", i:" + i);
                 minAbs = this.subtract(total, totalPrice).abs();
                 minTotal = total;
-//                msg = "total: " + total + ", addedUnitPrice:" + this.add(defaultUnitPrices[i], multiSteps) + ", multiSteps:" + multiSteps + ", finalSum:" + this.getTotalPriceAfterAddedUnitPrice(multiSteps, i, defaultUnitPrices, weights) + ", loopTimes:" + loopTimes + ", i:" + i;
-                msg = "total: " + total + ", multiSteps:" + multiSteps;
 
                 minMultiSteps = multiSteps;
 
@@ -453,8 +457,25 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
         task.setIfSortList(toSortList);
 
 //        executorService.execute(task);
-        executorService.submit(task);
+        Future<Result> resultFuture = executorService.submit(task);
+        if(resultFuture != null) {
+            try {
+                result = resultFuture.get();
+//                System.out.println("print final result:");
+//                this.printResult(null, result.getUnitPriceList().toArray(new BigDecimal[]{}), result.getWeightList().toArray(new BigDecimal[]{}));
 
+                String rootDir = CommonUtils.getMacDownloadsPath();
+                String excelPath = rootDir + File.separator + "output_result.xlsx";
+                System.out.println(rootDir);
+                System.out.println(excelPath);
+                mathExcelTool.xssfWrite(excelPath, weightList, result.getWeightPriceMap(), totalPrice);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -504,13 +525,6 @@ public class ProductPriceReverseMultiThread extends AbstractUnitPriceReverse {
         return ifSortList;
     }
 
-    public BigDecimal getMinWeightSum() {
-        BigDecimal weightSum = new BigDecimal(0);
-        for(int i = 0; i < weights.length; i ++) {
-            weightSum = add(weightSum, this.multiply(weights[i], new BigDecimal(0.01)));
-        }
-        return weightSum;
-    }
 
     public BigDecimal[] getBigDecimalArray(List<String> strArr) {
         BigDecimal[] bigDecimals = new BigDecimal[strArr.size()];

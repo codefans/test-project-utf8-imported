@@ -34,4 +34,8 @@ public class CommonUtils {
         return getModuleMainRoot(moduleName) + File.separator + "test";
     }
 
+    public static String getMacDownloadsPath() {
+        return "/Users/caishengzhi/Downloads/";
+    }
+
 }
