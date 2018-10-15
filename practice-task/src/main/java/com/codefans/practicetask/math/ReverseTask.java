@@ -6,7 +6,10 @@ import org.apache.commons.collections.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * @author: caishengzhi
@@ -16,7 +19,7 @@ import java.util.List;
  *
  *
  */
-public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
+public class ReverseTask extends AbstractUnitPriceReverse implements Callable<Result> {
 
     BigDecimal totalPrice;
     List<BigDecimal> weightList;
@@ -52,12 +55,15 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
     }
 
     @Override
-    public void run() {
+    public Result call() {
+
+        Result result = null;
+
         try {
             long beginTime = System.currentTimeMillis();
             System.out.println("currentThreadName:" + Thread.currentThread().getName());
 
-            this.calculate(totalPrice, weightList, defaultUnitPriceList);
+            result = this.calculate(totalPrice, weightList, defaultUnitPriceList);
             long endTime = System.currentTimeMillis();
             System.out.println("calculate cost:[" + (endTime - beginTime) / 1000 + "s]");
 
@@ -65,6 +71,7 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     /**
@@ -75,7 +82,13 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
      * 参考单价列表
      * @param defaultUnitPriceList
      */
-    public void calculate(BigDecimal totalPrice, List<BigDecimal> weightList, List<BigDecimal> defaultUnitPriceList) {
+    public Result calculate(BigDecimal totalPrice, List<BigDecimal> weightList, List<BigDecimal> defaultUnitPriceList) {
+
+        Result result = new Result();
+        List<BigDecimal> weights = new ArrayList<BigDecimal>();
+        List<BigDecimal> prices = new ArrayList<BigDecimal>();
+        Map<String, BigDecimal> weightPriceMap = new HashMap<String, BigDecimal>();
+
 
         List<Integer> beginIndexList = new ArrayList<Integer>(defaultUnitPriceList.size());
         List<Integer> endIndexList = new ArrayList<Integer>(defaultUnitPriceList.size());
@@ -267,8 +280,12 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
                 }
             }
 
+
             if(subAbs.compareTo(minAbs) <= 0) {
                 minAbs = subAbs;
+
+                weights.clear();
+                prices.clear();
 
                 StringBuilder sb = new StringBuilder();
                 sb.append("================result:[" + (successCount) + "], priceList.size():[" + singlePriceList.size() + "]=================").append("\n");
@@ -277,6 +294,12 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
                     weight = weightList.get(j);
                     singleTotalPrice = singleTotalPriceList.get(j);
                     sb.append(singlePrice + " * " + weight + " = " + singleTotalPrice).append("\n");
+//                    sb.append(weight + "," + singlePrice + "," + singleTotalPrice).append("\n");
+
+                    weights.add(weight);
+                    prices.add(singlePrice);
+                    weightPriceMap.put(weight.toString(), singlePrice);
+
                 }
 
                 for(int k = 0; k < singleTotalPriceList.size(); k ++) {
@@ -291,6 +314,11 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
 
                 if(subAbs.compareTo(new BigDecimal(0)) == 0) {
                     System.out.println(lastMsg);
+                    result.setTotalPrice(total);
+                    result.setWeightList(weights);
+                    result.setUnitPriceList(prices);
+                    result.setWeightPriceMap(weightPriceMap);
+
                 }
 
                 index++;
@@ -328,6 +356,7 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
             singlePriceList.clear();
             singleTotalPriceList.clear();
 
+
         }
 
         System.out.println("符合条件的数据总共有:[" + successCount + "]条");
@@ -335,6 +364,8 @@ public class ReverseTask extends AbstractUnitPriceReverse implements Runnable {
         System.out.println("最后一条符合条件的数据详情如下:");
         System.out.println(lastMsg);
         System.out.println("task finish!!!!");
+
+        return result;
 
     }
 

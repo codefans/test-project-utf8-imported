@@ -28,6 +28,19 @@ public class ModulePomBuilder extends BasicPomBuilder implements PropertyKeyCons
 
             this.artifactIdBegin().text(moduleArtifactId).artifactIdEnd().newline();
             this.packagingBegin().text(this.get("module." + moduleArtifactId + ".packaging")).packagingEnd().newline();
+
+//            <maven.deploy.skip>false</maven.deploy.skip>
+//        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+//        <maven.compiler.source>1.7</maven.compiler.source>
+//        <maven.compiler.target>1.7</maven.compiler.target>
+
+        String deploySkipKey = "maven.deploy.skip";
+        String deploySkipPropKey = "module." + moduleArtifactId + "." + deploySkipKey;
+
+        this.propertiesBegin().newline();
+            this.begin(deploySkipKey).text(this.get(deploySkipPropKey)).end(deploySkipKey);
+        this.propertiesEnd().newline();
+
         this.projectEnd().newline();
 
         return super.toString();
