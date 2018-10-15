@@ -26,6 +26,7 @@
 
         <log4j2.version>2.10.0</log4j2.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <rocketmq.version>4.3.0</rocketmq.version>
 
     </properties>
 
@@ -220,11 +221,25 @@
             </dependency>
 
 
-            <!-- rocketmq client -->
             <dependency>
-                <groupId>com.alibaba.rocketmq</groupId>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-common</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
-                <version>3.2.6</version>
+                <version>${rocketmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-logging</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-remoting</artifactId>
+                <version>${rocketmq.version}</version>
             </dependency>
 
             <!-- json open source -->
