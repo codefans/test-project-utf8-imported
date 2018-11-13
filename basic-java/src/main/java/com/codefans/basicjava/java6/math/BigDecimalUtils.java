@@ -8,10 +8,10 @@ import java.math.BigDecimal;
  */
 public class BigDecimalUtils {
 
-    public BigDecimal devide(BigDecimal num01, BigDecimal num02) {
-        return devide(num01, num02, 2);
+    public BigDecimal divide(BigDecimal num01, BigDecimal num02) {
+        return divide(num01, num02, 2);
     }
-    public BigDecimal devide(BigDecimal num01, BigDecimal num02, int scale) {
+    public BigDecimal divide(BigDecimal num01, BigDecimal num02, int scale) {
         return num01.divide(num02, scale, BigDecimal.ROUND_HALF_UP);
     }
 

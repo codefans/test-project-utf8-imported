@@ -103,6 +103,19 @@
             <artifactId>poi-ooxml</artifactId>
         </dependency>
 
+        <!-- pdfbox -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>fontbox</artifactId>
+        </dependency>
+
+
+
+
     </dependencies>
 
     <!--
