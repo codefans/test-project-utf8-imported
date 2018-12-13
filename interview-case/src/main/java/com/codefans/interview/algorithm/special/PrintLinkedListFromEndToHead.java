@@ -30,8 +30,15 @@ public class PrintLinkedListFromEndToHead {
         this.printFromEnd();
         System.out.println("print from end by recursion:");
         this.printFromEndRecursion(firstNode);
+
         System.out.println("print from end by reverse LinkedList");
-        this.printFromEndByReverseLinkedList();
+        this.printFromEndByReverseLinkedList(firstNode);
+
+        //重新初始化firstNode
+        this.initLinkedList();
+        System.out.println("reverseLinkedList:");
+        reverseLinkedList(firstNode);
+
     }
 
     public void initLinkedList() {
@@ -84,8 +91,8 @@ public class PrintLinkedListFromEndToHead {
     /**
      * 翻转链表, 再打印
      */
-    public void printFromEndByReverseLinkedList() {
-        LinkedListNode node = firstNode;
+    public void printFromEndByReverseLinkedList(LinkedListNode node) {
+//        LinkedListNode node = firstNode;
         Stack<LinkedListNode> nodeStack = new Stack<LinkedListNode>();
         while(node != null) {
             nodeStack.push(node);
@@ -111,6 +118,37 @@ public class PrintLinkedListFromEndToHead {
         while(first != null) {
             System.out.println(first.value);
             first = first.next;
+        }
+
+    }
+
+    /**
+     * 翻转链表, 再打印
+     */
+    public void reverseLinkedList(LinkedListNode current) {
+//        LinkedListNode current = firstNode;
+
+        if(current == null) {
+            System.out.println("current is null");
+            return;
+        }
+
+        LinkedListNode prev = null;
+        LinkedListNode next = null;
+
+        while(current != null) {
+
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+//        System.out.println(prev.value);
+
+        while(prev != null) {
+            System.out.println(prev.value);
+            prev = prev.next;
         }
 
     }
