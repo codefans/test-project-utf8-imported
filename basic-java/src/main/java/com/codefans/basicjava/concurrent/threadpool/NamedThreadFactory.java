@@ -1,4 +1,4 @@
-package com.codefans.basicjava.concurrent;
+package com.codefans.basicjava.concurrent.threadpool;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;

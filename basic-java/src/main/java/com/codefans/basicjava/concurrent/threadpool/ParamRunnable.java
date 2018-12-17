@@ -1,4 +1,4 @@
-package com.codefans.basicjava.concurrent;
+package com.codefans.basicjava.concurrent.threadpool;
 
 import com.codefans.basicjava.dto.ResultDto;
 

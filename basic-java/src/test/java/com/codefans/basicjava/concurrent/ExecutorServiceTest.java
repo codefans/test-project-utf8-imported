@@ -1,11 +1,11 @@
 package com.codefans.basicjava.concurrent;
 
+import com.codefans.basicjava.concurrent.threadpool.NamedThreadFactory;
+import com.codefans.basicjava.concurrent.threadpool.ParamRunnable;
 import com.codefans.basicjava.dto.ResultDto;
 import org.junit.Test;
 
-import javax.xml.transform.Result;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
