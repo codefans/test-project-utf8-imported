@@ -46,6 +46,7 @@ public class ThreadPoolExecutorTest {
     public void threadPoolExecutorTest() {
 
         ThreadPoolExecutor poolExecutor = null;
+        ExecutorService executorService = null;
 
         try {
 //        ThreadPoolExecutor(
@@ -105,6 +106,7 @@ public class ThreadPoolExecutorTest {
             RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
 
             poolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+//            executorService = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
             int taskNums = 10;
             ResultDto result = null;
             List<Future<ResultDto>> resList = new ArrayList<Future<ResultDto>>();
@@ -117,9 +119,10 @@ public class ThreadPoolExecutorTest {
 //                    resList.add(future);
 
                     poolExecutor.execute(new ParamRunnable(result));
+//                    executorService.submit(new ParamRunnable(result));
 
-                    poolSize = poolExecutor.getPoolSize();
-                    System.out.println("poolSize:" + poolSize);
+//                    poolSize = executorService.getPoolSize();
+//                    System.out.println("poolSize:" + poolSize);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -140,14 +143,16 @@ public class ThreadPoolExecutorTest {
 
             }
 
+            /**
+             * 必须暂停一会儿,否则线程还没开始执行,线程池就关闭了
+             */
+            Thread.sleep(3 * 1000);
 
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             poolExecutor.shutdown();
+//            executorService.shutdown();
         }
 
 
