@@ -90,6 +90,7 @@ public class PrintLinkedListFromEndToHead {
 
     /**
      * 翻转链表, 再打印
+     * 这种解法多此一举了,从栈中取出后,直接打印就好了,不需要再翻转链表
      */
     public void printFromEndByReverseLinkedList(LinkedListNode node) {
 //        LinkedListNode node = firstNode;
@@ -105,6 +106,7 @@ public class PrintLinkedListFromEndToHead {
         LinkedListNode lastNode = null;
         while(iter.hasNext()) {
             oneNode = nodeStack.pop();
+            System.out.println(oneNode.value);
             if(first == null) {
                 first = oneNode;
             }

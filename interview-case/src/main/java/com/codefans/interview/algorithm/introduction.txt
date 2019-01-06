@@ -1,20 +1,27 @@
 一、数据结构
 1.1 数组
-
+    (1)二维数组中的查找
+        SearchInTwoDimensionalArray.java
 1.2 字符串
+    (1)替换空格
+        BlankReplacement.java
 
 1.3 链表
     (1)从尾到头打印链表
         PrintLinkedListFromEndToHead.java
+
 1.4 树
     (1)重建二叉树
         ReBuildBinaryTree.java
+
 1.5 栈
 
 1.6 队列
 
 二、算法和数据操作
 2.1 查找和排序
+    (1)折半查找(二分查找)
+        BinarySearch.java
 
 2.2 递归与循环
 

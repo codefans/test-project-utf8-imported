@@ -71,16 +71,25 @@ public class SearchInTwoDimensionalArray {
             }
         }
 
-//        int data = 6;
+        int data = 6;
 //        int data = 9;
 //        int data = 10;
 //        int data = 12;
 //        int data = 15;
-        int data = 16;
+//        int data = 16;
 
-        boolean isFound = findBySelf(arr, data);
-//        boolean isFound = findByOfficial(arr, data);
-        System.out.println("数字[" + data + "]" + (isFound ? "已找到" : "未找到"));
+        int[] unitTestData = new int[]{
+            6,9,10,12,15,16
+        };
+
+        boolean isFound = false;
+        for(int i = 0; i < unitTestData.length; i ++) {
+            data = unitTestData[i];
+//          isFound = findBySelf(arr, data);
+          isFound = findByOfficial(arr, data);
+//            isFound = findInterviewTemp(arr, data);
+            System.out.println("数字[" + data + "]" + (isFound ? "已找到" : "未找到"));
+        }
 
     }
 
@@ -189,4 +198,37 @@ public class SearchInTwoDimensionalArray {
 
         return found;
     }
+
+    public boolean findInterviewTemp(int[][] arr, int data) {
+
+        boolean found = false;
+
+
+
+        return found;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
