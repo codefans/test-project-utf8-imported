@@ -15,12 +15,14 @@ public class BinarySearch {
         };
 //        int data = 0;
         int data = 13;
-        int index = binarySearch.search(arr, data);
+//        int index = binarySearch.search(arr, data);
+        int index = binarySearch.searchTemp(arr, data);
         System.out.println("数字[" + data + "]下标为:[" + index + "]");
 
         for(int i = 0; i < arr.length; i ++) {
             data = arr[i];
-            index = binarySearch.search(arr, data);
+//            index = binarySearch.search(arr, data);
+            index = binarySearch.searchTemp(arr, data);
             System.out.println("数字[" + data + "]下标为:[" + index + "]");
         }
     }
@@ -86,11 +88,42 @@ public class BinarySearch {
     }
 
 
+
+
+
+
+
+
+
     public int searchTemp(int[] arr, int data) {
         int index = -1;
 
+        
+
         return index;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
