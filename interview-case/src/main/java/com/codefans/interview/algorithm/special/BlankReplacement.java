@@ -22,6 +22,9 @@ public class BlankReplacement {
         String resultStr = blankReplacement.replaceInOriginStr(originStr);
         System.out.println("resultStr:");
         System.out.println(resultStr);
+
+        blankReplacement.mergeTwoArray();
+        
     }
 
     public String replace(String originStr) {
@@ -75,6 +78,47 @@ public class BlankReplacement {
         }
 
         return new String(destChars);
+    }
+
+    /**
+     * 合并两个有序数组
+     */
+    public void mergeTwoArray() {
+        int[] arr01 = new int[]{1,3,5,7,9,0,0,0,0};
+        int[] arr02 = new int[]{2,4,6,8};
+        int index01 = 4;
+        int lastIndex = arr01.length - 1;
+        int index02 = arr02.length - 1;
+        int tmp = -1;
+        while(index01 >= 0 && index02 >= 0) {
+            if(arr01[index01] > arr02[index02]) {
+                tmp = arr01[index01];
+                arr01[index01] = arr01[lastIndex];
+                arr01[lastIndex] = tmp;
+                index01--;
+            } else {
+                tmp = arr02[index02];
+                arr02[index02] = arr01[lastIndex];
+                arr01[lastIndex] = tmp;
+                index02--;
+            }
+            lastIndex--;
+        }
+
+        this.println(arr01);
+
+
+    }
+
+    public void println(int[] arr) {
+        for(int i = 0; i < arr.length; i ++) {
+            if(i == 0) {
+                System.out.print(arr[i]);
+            } else {
+                System.out.print(", " + arr[i]);
+            }
+        }
+        System.out.println();
     }
 
 }
